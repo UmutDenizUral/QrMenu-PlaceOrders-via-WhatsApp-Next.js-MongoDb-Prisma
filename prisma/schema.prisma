@@ -1,0 +1,28 @@
+model Restaurant {
+    id       String    @id @default(cuid())
+    name     String
+    location String
+    menu     Product[] // Bir restoranın birden fazla ürünü olabilir
+}
+
+model Product {
+    id          String     @id @default(cuid())
+    shopId      String // Restoranın ID'si
+    name        String
+    description String
+    price       Float
+    ingredients String[]
+    submenu     String
+    category    String
+    image       String
+    reviews     Review[]
+    restaurant  Restaurant @relation(fields: [shopId], references: [id]) // Restoranla ilişki
+}
+
+model Review {
+    id        String  @id @default(cuid())
+    content   String
+    rating    Int
+    productId String
+    product   Product @relation(fields: [productId], references: [id])
+}

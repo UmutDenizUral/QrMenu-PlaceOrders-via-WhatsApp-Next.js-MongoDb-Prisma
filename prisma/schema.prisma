@@ -1,28 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
 model Restaurant {
-    id       String    @id @default(cuid())
-    name     String
-    location String
-    menu     Product[] // Bir restoranın birden fazla ürünü olabilir
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  location String
+  menu     Product[] // Bir restoranın birden fazla ürünü olabilir
 }
-
 model Product {
-    id          String     @id @default(cuid())
-    shopId      String // Restoranın ID'si
-    name        String
-    description String
-    price       Float
-    ingredients String[]
-    submenu     String
-    category    String
-    image       String
-    reviews     Review[]
-    restaurant  Restaurant @relation(fields: [shopId], references: [id]) // Restoranla ilişki
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  shopId      String     @db.ObjectId
+  name        String
+  description String
+  price       Float
+  submenu     String
+  ingredients String[]
+  categoryId  String     @db.ObjectId
+  category    Category   @relation(fields: [categoryId], references: [id])
+  image       String
+  reviews     Review[]
+  restaurant  Restaurant @relation(fields: [shopId], references: [id])
 }
 
-model Review {
-    id        String  @id @default(cuid())
-    content   String
-    rating    Int
-    productId String
-    product   Product @relation(fields: [productId], references: [id])
+model Category {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  products Product[] 
 }
+model Review {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  productId   String   @db.ObjectId
+  rating      Int
+  comment     String
+  createdDate DateTime @default(now())
+  product     Product  @relation(fields: [productId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  role           Role      @default(USER)
+  accounts       Account[]
+  reviews        Review[]
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+// restaurant: Bu, Product modelinde tanımlanan bir ilişki alanıdır. Bu alan, Product ile Restaurant modeli arasındaki ilişkiyi belirtir.
+
+// @relation(fields: [shopId], references: [id]): Bu direktif, Product ve Restaurant modelleri arasındaki ilişkiyi açıklar. Burada:
+
+// fields: [shopId]: Product modelindeki shopId alanı, Restaurant modelindeki id alanına referans verir.
+// references: [id]: Restaurant modelindeki id alanının Product modelindeki shopId ile eşleşmesi gerektiğini belirtir.
+// İlişki Türleri

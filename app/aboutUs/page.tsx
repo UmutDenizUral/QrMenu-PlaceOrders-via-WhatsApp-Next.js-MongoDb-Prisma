@@ -65,3 +65,29 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
+
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+async function main() {
+    console.log('çalıştı')
+    try {
+        // Yeni bir kullanıcı ekleme
+        const newUser = await prisma.user.create({
+            data: {
+                name: 'John Doe',
+                email: 'john.doe@example.com',
+                role: 'USER',
+            },
+        });
+
+        console.log('User created:', newUser);
+    } catch (error) {
+        console.error('Error creating user:', error);
+    } finally {
+        await prisma.$disconnect();
+    }
+}
+
+main();

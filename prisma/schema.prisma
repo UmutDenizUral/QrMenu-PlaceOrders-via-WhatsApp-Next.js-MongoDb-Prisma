@@ -12,32 +12,35 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
 model Restaurant {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   name     String
   location String
   menu     Product[] // Bir restoranın birden fazla ürünü olabilir
 }
+
 model Product {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
-  shopId      String     @db.ObjectId
-  name        String
-  description String
-  price       Float
-  submenu     String
-  ingredients String[]
-  categoryId  String     @db.ObjectId
-  category    Category   @relation(fields: [categoryId], references: [id])
-  image       String
-  reviews     Review[]
-  restaurant  Restaurant @relation(fields: [shopId], references: [id])
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  restaurantId String     @db.ObjectId
+  name         String
+  description  String
+  price        Float
+  submenu      String
+  ingredients  String
+  categoryId   String     @db.ObjectId
+  category     Category   @relation(fields: [categoryId], references: [id])
+  image        String
+  reviews      Review[]
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
 }
 
 model Category {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   name     String
-  products Product[] 
+  products Product[]
 }
+
 model Review {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   userId      String   @db.ObjectId

@@ -1,3 +1,4 @@
+import getProductsId from '@/app/actions/getProductId';
 import PageContainer from '@/app/components/container/PageContainer';
 import DetailClient from '@/app/components/detail/DetailClient';
 import { products } from '@/utils/Products';
@@ -10,16 +11,16 @@ type DetailProps = {
     }
 }
 
-const Detail = ({ params }: DetailProps) => {
+const Detail = async ({ params }: DetailProps) => {
     
     const { productid } = params;
+   
+    const product = await getProductsId({ productId: productid });
 
-    const product = products.find(p => p.id === productid);
     return (
         <PageContainer>
             <DetailClient product={product} />
         </PageContainer>
-
     )
 }
 

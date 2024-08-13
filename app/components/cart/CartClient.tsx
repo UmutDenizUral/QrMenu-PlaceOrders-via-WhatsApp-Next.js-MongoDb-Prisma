@@ -7,13 +7,20 @@ import Button from "../general/Button"
 
 import WhatsAppLink from "../general/WhatsAppLink"
 import Counter from "../general/Counter"
+import Heading from "../general/Heading"
 
 const CartClient = () => {
     const { cartProducts, removeFromCart, removeCart, addToBasketIncrease, addToBasketDecrease } = useCart()
     console.log(cartProducts)
     if (!cartProducts || cartProducts.length == 0) {
 
-        return <div>Sepetinizde ürün bulunmamaktadır</div>
+        return <PageContainer>
+            <Heading text="Sepet" />
+            <div >
+                <p className="my-2">Sepetinizde ürün bulunmamaktadır.</p>
+                <a className="text-sm underline hover:text-yellow-600" href="/">Yemekleri keşfet --></a>
+            </div>
+        </PageContainer>
     }
     let cartProductsTotal = cartProducts.reduce((acc: any, item: CardProductsProps) => acc + item.quantity * item.price, 0)
     return (
@@ -27,8 +34,8 @@ const CartClient = () => {
                     <div className="w-1/5"></div>
                 </div>
                 <div>
-                    {cartProducts.map(((product,i) => (
-                        <div key={i}  className="flex text-center items-center gap-3 border-b py-2">
+                    {cartProducts.map(((product, i) => (
+                        <div key={i} className="flex text-center items-center gap-3 border-b py-2">
                             <div className="w-1/5 flex items-center justify-center">
                                 <Image
                                     src={product.image}

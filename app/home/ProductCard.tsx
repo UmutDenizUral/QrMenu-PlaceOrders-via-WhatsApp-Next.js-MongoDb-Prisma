@@ -28,7 +28,7 @@ const ProductCard = ({ product }: { product: any }) => {
             <Heading text={name} submenu />
             <div className='p-2'>
               {/* <div>{description}</div> */}
-              <div className='text-sm'>{capitalizeFirstLetter(ingredients.join(', '))}</div>
+              {/* <div className='text-sm'>{capitalizeFirstLetter(ingredients.join(', '))}</div> */}
               <div className='my-1 mt-2 font-medium'>{price} <span className='font-semibold'>₺</span></div>
             </div>
           </div>

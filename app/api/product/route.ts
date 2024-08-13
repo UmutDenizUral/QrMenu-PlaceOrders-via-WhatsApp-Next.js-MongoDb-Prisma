@@ -1,3 +1,4 @@
+import { getCategory } from '@/app/actions/getCategory';
 import { getCurrentUser } from '@/app/actions/getCurrentUser';
 import prisma from '@/libs/prismadb'
 import { NextResponse } from "next/server";
@@ -10,32 +11,20 @@ export async function POST(request: Request) {
 
     const currentUser = await getCurrentUser();
 
+
     if (!currentUser || currentUser.role !== "ADMIN") {
         return (NextResponse.error())
     }
     const body = await request.json();
-    const { name, description, restaurant, category, price, image, submenu, ingredients } = body;
+    const { name, description, restaurantId, categoryId, price, image, submenu, ingredients } = body;
 
-    const newRestaurant = await prisma.restaurant.create({
-        data: {
-            name: 'Pizza Place',
-            location: 'kadıky'
-        },
-    });
-
-    // Yeni bir kategori oluştur
-    const newCategory = await prisma.category.create({
-        data: {
-            name: 'Pizzas',
-        },
-    });
 
     const product = await prisma.product.create({
         data: {
-            name :capitalizeFirstLetter(name),
-            description :capitalizeFirstLetter(description),
-            restaurantId: newRestaurant.id, // `restaurant` yerine `restaurantId` kullanılmalı
-            categoryId: newCategory.id,     // `category  ` yerine `categoryId` kullanılmalı
+            name: capitalizeFirstLetter(name),
+            description: capitalizeFirstLetter(description),
+            restaurantId: '66b94544865234f03c741eb4', // `restaurant` yerine `restaurantId` kullanılmalı
+            categoryId: categoryId,// `category  ` yerine `categoryId` kullanılmalı
             price: parseFloat(price),
             submenu,
             ingredients: capitalizeFirstLetter(ingredients),

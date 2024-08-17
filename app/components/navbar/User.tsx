@@ -46,12 +46,12 @@ const User: React.FC<UserProps> = ({ currentUser }) => {
       </div>
       {
         openMenu && (
-          <div ref={menuRef} className="absolute w-[150px] z-20 top-10 bg-white shadow-lg right-0 p-2 rounded-md">
+          <div ref={menuRef} className="absolute w-[180px] z-20 top-10 bg-white shadow-lg right-0 p-2 rounded-md">
             {
               currentUser ? (
                 <div className="space-y-1">
                   {currentUser.role === 'ADMIN' ?
-                    <div onClick={() => router.push('/admin')} className="text-slate-600 cursor-pointer">Admin</div>
+                    <div onClick={() => router.push('/admin')} className="text-slate-600 cursor-pointer">Admin Paneline Gir</div>
                     : <div onClick={() => router.push('/')} className="text-slate-600 cursor-pointer">{currentUser ? currentUser.name : "User"}</div>}
                   <div onClick={() => menuFunc("logout")} className="text-slate-600 cursor-pointer">Çıkış Yap</div>
                 </div>

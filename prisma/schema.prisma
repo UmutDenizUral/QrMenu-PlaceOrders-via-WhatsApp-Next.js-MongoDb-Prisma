@@ -4,6 +4,10 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+
+
+
+//*********genereate et optinal yatpın ingşrdients
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,33 +16,45 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
-
 model Restaurant {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   name     String
-  location String
-  menu     Product[] // Bir restoranın birden fazla ürünü olabilir
+  submenu  Submenu[]
+  products Product[]
+  user     User?     @relation(fields: [userId], references: [id])
+  userId   String?   @db.ObjectId
+}
+model Submenu {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId String     @db.ObjectId
+  category     Category[]
+  products     Product[]
+}
+
+model Category {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  submenu   Submenu   @relation(fields: [submenuId], references: [id])
+  submenuId String    @db.ObjectId
+  products  Product[]
 }
 
 model Product {
   id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  restaurantId String     @db.ObjectId
   name         String
-  description  String
+  description  String?
   price        Float
-  submenu      String
-  ingredients  String
-  categoryId   String     @db.ObjectId
-  category     Category   @relation(fields: [categoryId], references: [id])
   image        String
-  reviews      Review[]
+  category     Category   @relation(fields: [categoryId], references: [id])
+  categoryId   String     @db.ObjectId
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
-}
-
-model Category {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  products Product[]
+  restaurantId String     @db.ObjectId
+  submenu      Submenu    @relation(fields: [submenuId], references: [id])
+  submenuId    String     @db.ObjectId
+  ingredients  String?
+  reviews      Review[]
 }
 
 model Review {
@@ -52,18 +68,21 @@ model Review {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+
 model User {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
   name           String?
-  email          String?   @unique
+  email          String?      @unique
   emailVerified  DateTime?
   image          String?
   hashedPassword String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  role           Role      @default(USER)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  role           Role         @default(USER)
   accounts       Account[]
   reviews        Review[]
+  restaurantId   String?      @db.ObjectId
+  restaurant     Restaurant[]
 }
 
 model Account {

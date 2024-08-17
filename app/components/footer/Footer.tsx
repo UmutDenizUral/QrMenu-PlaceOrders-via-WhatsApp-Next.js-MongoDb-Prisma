@@ -18,10 +18,15 @@ const Footer = () => {
                     {/* Menü Bağlantıları */}
                     <div className="mb-4 md:mb-0">
                         <h2 className="text-md font-semibold mb-2">Menü</h2>
-                        <ul className="space-y-1">
-                            <li><a href="/#Yemekler" className="text-gray-300 hover:text-yellow-600">Yemekler</a></li>
-                            <li><a href="/#İçecekler" className="text-gray-300 hover:text-yellow-600">İçecekler</a></li>
-                            <li><a href="/#Tatlılar" className="text-gray-300 hover:text-yellow-600">Tatlılar</a></li>
+                        <ul className="gap-3 flex">
+                            <ul><li><a href="/#Yemekler" className="text-gray-300 hover:text-yellow-600">Yemekler</a></li>
+                                <li><a href="/#İçecekler" className="text-gray-300 hover:text-yellow-600">İçecekler</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="/#Tatlılar" className="text-gray-300 hover:text-yellow-600">Tatlılar</a></li>
+                                <li><a href="/#Atıştırmalık" className="text-gray-300 hover:text-yellow-600">Atıştırmalıklar</a></li>
+                            </ul>
+
                         </ul>
                     </div>
 

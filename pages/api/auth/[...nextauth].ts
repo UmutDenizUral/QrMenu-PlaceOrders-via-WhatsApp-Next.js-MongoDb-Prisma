@@ -23,7 +23,6 @@ export const authOptions: AuthOptions = {
       },
       async authorize(credentials) {
         console.log('....Nextauth Çalıştı')
-
         if (!credentials?.email || !credentials.password) {
           console.log('geliyor')
           throw new Error('Gecersiz mail ya da parola...')

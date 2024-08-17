@@ -1,11 +1,14 @@
-import { getCategory } from '@/app/actions/getCategory'
-import { getProducts } from '@/app/actions/getProducts'
+
+import { getCategory } from '@/app/actions/admin/getCategory'
+import { getProducts } from '@/app/actions/admin/getProducts'
 import ManageClient from '@/app/components/admin/ManageClient'
 import React from 'react'
 
+
+// bu sayfa düzeltilecek
 const Manage = async () => {
 
-  const products = await getProducts('66b94544865234f03c741eb4')
+  const products = await getProducts()
   const categories = await getCategory()
   console.log(categories)
   return (

@@ -1,6 +1,9 @@
 import prisma from '@/libs/prismadb';
+import { getCurrentUser } from '../getCurrentUser';
 
-export async function getProducts(restaurantId: string) {
+export async function getProducts() {
+    const user = await getCurrentUser()
+    const restaurantId: any = user?.restaurantId
     try {
         const products = await prisma.product.findMany({
             where: {
@@ -10,11 +13,11 @@ export async function getProducts(restaurantId: string) {
                 id: true,
                 name: true,
                 description: true,
-                ingredients:true,
+                ingredients: true,
                 price: true,
                 image: true,
-                submenu:true,
-                categoryId:true,
+                submenu: true,
+                categoryId: true,
             }
         });
         return products;

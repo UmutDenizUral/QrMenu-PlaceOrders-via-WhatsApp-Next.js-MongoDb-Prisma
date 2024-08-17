@@ -6,7 +6,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
-const CreateCategory = () => {
+const CreateCategory = ({submenuId}: any) => {
    const router = useRouter();
    const {
       register,
@@ -16,12 +16,14 @@ const CreateCategory = () => {
    } = useForm<FieldValues>({
       defaultValues: {
          name: "",
+         submenuId:''
       }
    });
 
    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+      let newData = { ...data, submenuId}
       try {
-         await axios.post('/api/category', data);
+         await axios.post('/api/category', newData);
          toast.success('Kategori ekleme işlemi başarılı !!!');
          reset(); // Formu sıfırla
          router.refresh();
@@ -29,24 +31,23 @@ const CreateCategory = () => {
          toast.error('Kategori ekleme işlemi başarısız !!!');
          console.error(error, "error");
       }
-
       console.log(data, "NEWDATAAAA");
    };
-
+   
    return (
       <div className='flex flex-grow gap-2'>
-         <Input 
-            placeholder="Kategori" 
-            type="text" 
-            id="name" 
-            register={register} 
-            errors={errors} 
-            required 
+         <Input
+            placeholder="Kategori"
+            type="text"
+            id="name"
+            register={register}
+            errors={errors}
+            required
          />
-         <Button 
-            small 
-            text='Kategori Ekle' 
-            onClick={handleSubmit(onSubmit)} 
+         <Button
+            small
+            text='Kategori Ekle'
+            onClick={handleSubmit(onSubmit)}
          />
       </div>
    );

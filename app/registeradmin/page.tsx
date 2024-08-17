@@ -1,16 +1,16 @@
 import { getCurrentUser } from "../actions/getCurrentUser"
+import AdminRegisterClient from "../components/auth/AdminRegisterClient"
 import RegisterClient from "../components/auth/RegisterClient"
 
 
-const Register = async () => {
+const AdminRegister = async () => {
   const currentUser = await getCurrentUser()
   return (
     <div>
-      <RegisterClient currentUser={currentUser} />
+      <AdminRegisterClient currentUser={currentUser} />
 
-      <h4>Restran açmak için aşğıdan devam edin</h4>
     </div>
   )
 }
 
-export default Register
+export default AdminRegister

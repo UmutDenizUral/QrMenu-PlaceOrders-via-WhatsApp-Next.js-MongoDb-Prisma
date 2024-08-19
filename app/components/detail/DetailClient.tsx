@@ -18,34 +18,34 @@ const DetailClient = ({ product }: any) => {
 
     const { id, name, description, price, ingredients, image } = product
     return (
-        
-            <div className="flex flex-col flex-grow  justify-center items-center mx-1  border-r-2 border-l-2  ">
-                <div className=" rounded-md flex w-full  flex-col items-start justify-center border-t-0 border border-1">
-                    <div className="relative flex items-center w-full h-[200px] sm:h-[400px] ">
-                        <Image
-                            src={image}
-                            fill
-                            className="object-cover"
-                            alt="yok"
-                        />
-                    </div>
-                    <div className="px-2 py-1">
-                        <h3 className="font-bold my-2">{name}</h3>
-                        <p className="text-left text-sm">{description}</p>
-                        <p>{price} TL</p>
-                    </div>
-                    {
-                        (cartProducts?.some(item => item.id === id)) ? <div className="flex gap-4">
-                            <Button text="Ürün Sepette" disabled outline small onClick={() => addToBasket(product)} />
-                            <Button text="Sepete Git" onClick={() => router.push('/cart')} />
-                        </div> : <Button text="Sepete Ekle" small onClick={() => addToBasket(product)} />
 
-                    }
+        <div className="flex flex-col flex-grow  justify-center items-center mx-1 my-6 shadow-xl ">
+            <div className=" rounded-md flex w-full  flex-col items-start justify-center border-t-0 border border-1">
+                <div className="relative flex items-center w-full h-[200px] sm:h-[400px] ">
+                    <Image
+                        src={image}
+                        fill
+                        className="object-cover"
+                        alt="yok"
+                    />
                 </div>
-                
+                <div className="px-2 py-1">
+                    <h3 className="font-bold my-2">{name}</h3>
+                    <p className="">{price}<span className='font-semibold px-1'>₺</span></p>
+                    <p className="text-left text-sm">{description}</p>
+                </div>
+                {
+                    (cartProducts?.some(item => item.id === id)) ? <div className="flex mb-2 mx-auto gap-4">
+                        <Button text="Ürün Sepette" disabled outline small onClick={() => addToBasket(product)} />
+                        <Button text="Sepete Git" onClick={() => router.push('/cart')} />
+                    </div> : <Button text="Sepete Ekle" onClick={() => addToBasket(product)} />
 
+                }
             </div>
-   
+
+
+        </div>
+
     )
 }
 

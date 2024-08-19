@@ -8,7 +8,6 @@ const Register = async () => {
     <div>
       <RegisterClient currentUser={currentUser} />
 
-      <h4>Restran açmak için aşğıdan devam edin</h4>
     </div>
   )
 }

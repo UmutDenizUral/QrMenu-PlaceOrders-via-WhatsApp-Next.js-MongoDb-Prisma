@@ -32,7 +32,7 @@ const SideProduct = ({ restrauntData }: any) => {
 
 console.log(option)
     return (
-        <div className="sm:flex mt-2 w-full">
+        <div className="sm:flex mt-2 w-full shadow-lg">
             <div id="içeçek" className="w-full p-2 overflow-y-auto max-h-[290px] sm:max-h-[500px]">
                 <h4 className="sticky -top-2 bg-white z-10 flex items-center p-2 font-semibold">İçeçek</h4>
                 {
@@ -48,15 +48,15 @@ console.log(option)
                                     />
                                 </div>
                                 <div className="flex-grow text-center">{drink.name}</div>
-                                <div className="text-center">{drink.price} TL</div>
+                                <div className="text-center">{drink.price} <span className='font-semibold px-1'>₺</span></div>
 
                                 {
                                     (cartProducts?.some(item => item.id === drink.id))
-                                        ? <div className="flex cursor-pointer items-center justify-center border-yellow-600 text-xl p-3 border font-bold rounded-full text-black w-5 h-5">
+                                        ? <div className="flex cursor-pointer items-center justify-center border-yellow-600 text-sm p-3 border font-bold rounded-full text-black w-5 h-5">
                                             1
                                         </div>
                                         :
-                                        <div onClick={() => addToBasket(drink)} className="flex cursor-pointer items-center justify-center border-yellow-600 text-xl p-3 border font-bold rounded-full text-black w-5 h-5">
+                                        <div onClick={() => addToBasket(drink)} className="flex cursor-pointer items-center justify-center border-yellow-600 text-md p-3 border font-bold rounded-full text-black w-5 h-5">
                                             +
                                         </div>
                                 }
@@ -80,14 +80,14 @@ console.log(option)
                                 />
                             </div>
                             <div className="flex-grow text-center">{promo.name}</div>
-                            <div className="text-center">{promo.price} TL</div>
+                            <div className="text-center">{promo.price} <span className='font-semibold px-1'>₺</span></div>
                             {
                                 (cartProducts?.some(item => item.id === promo.id))
-                                    ? <div className="flex cursor-pointer items-center justify-center border-yellow-600 text-xl p-3 border font-bold rounded-full text-black w-5 h-5">
+                                    ? <div className="flex cursor-pointer items-center justify-center border-yellow-600 text-sm p-3 border font-bold rounded-full text-black w-5 h-5">
                                         1
                                     </div>
                                     :
-                                    <div onClick={() => addToBasket(promo)} className="flex cursor-pointer items-center justify-center border-yellow-600 text-xl p-3 border font-bold rounded-full text-black w-5 h-5">
+                                    <div onClick={() => addToBasket(promo)} className="flex cursor-pointer items-center justify-center border-yellow-600 text-md p-3 border font-bold rounded-full text-black w-5 h-5">
                                         +
                                     </div>
                             }

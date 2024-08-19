@@ -53,7 +53,7 @@ const LoginClient: React.FC<LoginClientProps> = ({ currentUser }) => {
 
         <AuthContainer>
             <div className="w-full md:w-[500px] p-3 shadow-lg rounded-md">
-                <Heading text="Login" center />
+                <Heading text="Giriş Yap" center />
                 <Input placeholder="Email" type="text" id="email" register={register} errors={errors} required />
                 <Input placeholder="Parola" type="password" id="password" register={register} errors={errors} required />
                 <Button text="Giriş Yap" onClick={handleSubmit(onSubmit)} />

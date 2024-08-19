@@ -9,10 +9,10 @@ const AllRestraunts = (data: any) => {
     }
 
     return (
-        <div className='mt-4 grid grid-cols-1 gap-3 w-full   '>
+        <div className='mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 w-full   '>
             {
                 data.data.map((restaurant: any, id: any) =>
-                    <RestrauntCard key={id} restrauntData={restaurant} />)
+                    <RestrauntCard key={id} restaurantData={restaurant} />)
             }
 
         </div>

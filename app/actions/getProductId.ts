@@ -23,6 +23,6 @@ export default async function getProductsId(params:IParams) {
     if(!product){
         return null
     }
-    console.log('getProduct çalıştı!!!!!! :',product)
+    // console.log('getProduct çalıştı!!!!!! :',product)
     return product
 }

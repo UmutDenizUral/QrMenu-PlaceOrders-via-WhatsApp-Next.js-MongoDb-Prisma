@@ -2,15 +2,13 @@
 import useCart, { CardProductsProps } from "@/hooks/useCart"
 import PageContainer from "../container/PageContainer"
 import Image from "next/image"
-import Button from "../general/Button"
-
-
 import WhatsAppLink from "../general/WhatsAppLink"
 import Counter from "../general/Counter"
 import Heading from "../general/Heading"
 import { useCallback, useEffect, useState } from "react"
 import { getRestPhone } from "@/app/actions/getRestPhone"
 import axios from "axios"
+import toast from "react-hot-toast"
 // local storage de ürünlerin rest idsine bakıcak eğer farkı restrandan ürünler varsa uyarı vericek 
 
 
@@ -19,33 +17,47 @@ import axios from "axios"
 const CartClient = () => {
     const { cartProducts, removeFromCart, removeCart, addToBasketIncrease, addToBasketDecrease } = useCart()
     const [restPhone, setRestPhone] = useState()
+    const [wpOrder, setWpOrder] = useState(true)
+    const [activeRest, setActiveRest] = useState()
+    const url = localStorage.getItem('restId')
 
-    const fetchRestaurantPhone = async (id: any) => {
-        try {
-            alert("fetch çalıştı")
-            const response = await axios.get(`/api/restaurant/${id}/phone`) // Örnek API çağrısı
-            return response.data.phone
-        } catch (error) {
-            console.error("Telefon numarası alınırken bir hata oluştu:", error) 
-            return null
-        }
-    }
-
-    // useCallback ile fonksiyonun çalışmasını kontrol edin
     const getRestaurantPhone = useCallback(async (id: any) => {
-        const phone = await fetchRestaurantPhone(id) // Kendi kendini çağırmak yerine doğru fonksiyonu çağırın
-        console.log('Restaurant phone verisi:', phone)
+        const phone = await fetchRestaurantPhone(id)
         setRestPhone(phone)
     }, [])
+    console.log('Restaurant phone verisi:', restPhone)
+    const fetchRestaurantPhone = async (id: any) => {
+        try {
+            const response = await axios.get(`/api/restaurantPhone/${id}`)
+            console.log('response:', response)
+            return response.data.phone;
+        } catch (error) {
+            console.error("Telefon numarası alınırken bir hata oluştu:", error);
+            return null;
+        }
+    };
 
     useEffect(() => {
         if (cartProducts && cartProducts.length > 0) {
-            const restaurantId = cartProducts[0]?.restaurantId; // İlk ürünün restoran ID'sini alın
+            const restaurantId = cartProducts[0]?.restaurantId;
             if (restaurantId) {
-                getRestaurantPhone(restaurantId)
+                getRestaurantPhone(restaurantId);
             }
         }
-    }, [cartProducts, getRestaurantPhone])
+        if (cartProducts && cartProducts.length > 0) {
+            const restaurantIds = cartProducts.map(product => product.restaurantId);
+            const uniqueRestaurantIds = [...new Set(restaurantIds)];
+
+            if (uniqueRestaurantIds.length > 1) {
+                setWpOrder(false)
+                toast.error("Sepetinizde farklı restoranlardan ürünler var. Lütfen tek bir restorandan ürün ekleyin.");
+            } else if (uniqueRestaurantIds.length == 1) {
+                setWpOrder(true)
+            }
+
+        }
+
+    }, [cartProducts, getRestaurantPhone]);
 
     if (!cartProducts || cartProducts.length == 0) {
 
@@ -53,7 +65,7 @@ const CartClient = () => {
             <Heading text="Sepet" />
             <div >
                 <p className="my-2">Sepetinizde ürün bulunmamaktadır.</p>
-                <a className="text-sm underline hover:text-yellow-600" href="/">Yemekleri keşfet --></a>
+                <a className="text-sm underline hover:text-yellow-600" href={`/restaurant/${url}`}>Yemekleri keşfet --></a>
             </div>
         </PageContainer>
     }
@@ -72,7 +84,7 @@ const CartClient = () => {
                 <div>
                     {cartProducts.map(((product, i) => (
                         <div key={i} className="flex text-center items-center gap-3 border-b py-2">
-                            <div className=" w-1/6">{product.restaurantId}</div>
+                            <div className=" w-1/6">{product.restaurant}</div>
                             <div className=" w-1/6 flex items-center justify-center">
                                 <Image
                                     src={product.image}
@@ -91,7 +103,7 @@ const CartClient = () => {
                     <button onClick={() => removeCart()} className=" w-1/6 underline text-sm">Sepet Sİl</button>
                     <div className="flex justify-between gap-2">
                         <div className="flex justify-center items-center text-lg md:text-2xl text-orange-600 font-bold px-2">{cartProductsTotal}TL</div>
-                        <WhatsAppLink phoneNumber={restPhone} />
+                        {wpOrder ? <WhatsAppLink phoneNumber={restPhone} /> : <div className="flex items-center justify-center border-2 p-2 border-red-600">WhatsApp ile sipariş verebilmek için tek bir restoran seçiniz </div>}
 
                     </div>
 

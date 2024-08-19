@@ -11,9 +11,9 @@ const WhatsAppLink = ({ phoneNumber }: any) => {
 
   // Mesajı encode et
   const encodedMessage = encodeURIComponent(message);
-
+  const formattedPhone = phoneNumber?.replace(/\D/g, '');
   // WhatsApp URL'sini oluştur
-  const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+  const url = `https://wa.me/${formattedPhone}?text=${encodedMessage}`;
   return (
     <a
       style={{ backgroundColor: 'ghostwhite' }}

@@ -25,6 +25,8 @@ export type CardProductsProps = { //sill
     quantity: number,
     ingredients: string[];
     submenu: string
+    restaurant: string | undefined,
+    restaurantName?: string
     category: string;
     image: string;
     restaurantId: String
@@ -33,19 +35,30 @@ export type CardProductsProps = { //sill
 
 // Provider bileşeni
 export const CartContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    
+
     const [productCartQty, setProductCartQty] = useState(0);
     const [cartProducts, setCartProducts] = useState<CardProductsProps[] | null>(null);
 
-
+    console.log('cartprodcts', cartProducts)
     useEffect(() => {
         let getItem: any = localStorage.getItem('cart')
         let getItemParse: CardProductsProps[] | null = JSON.parse(getItem)
         setCartProducts(getItemParse)
+        console.log('cartprodcts', cartProducts)
+
+        if (cartProducts && cartProducts.length > 0) {
+            const restaurantIds = cartProducts.map(product => product.restaurantId);
+            const uniqueRestaurantIds = [...new Set(restaurantIds)];
+
+            if (uniqueRestaurantIds.length > 1) {
+                toast.error("Sepetinizde farklı restoranlardan ürünler var. Lütfen tek bir restorandan ürün ekleyin.");
+            }
+        }
+
     }, [])
-    
+
     const addToBasket = useCallback((product: CardProductsProps) => {
-        const CardProductData :CardProductsProps = {
+        const CardProductData: CardProductsProps = {
             id: product.id,
             name: product.name,
             description: product.description,
@@ -56,14 +69,15 @@ export const CartContextProvider: React.FC<{ children: ReactNode }> = ({ childre
             category: product.category,
             image: product.image,
             restaurantId: product.restaurantId,
+            restaurant: product.restaurantName,
             isinCart: true
-        }    
+        }
         setCartProducts(prev => {
             const updatedCart = prev ? [...prev, CardProductData] : [CardProductData];
             localStorage.setItem('cart', JSON.stringify(updatedCart))
             return updatedCart;
         });
-       
+
     }, [cartProducts]);
     const addToBasketIncrease = useCallback((product: CardProductsProps) => {
         let uptdatedcart
@@ -84,7 +98,7 @@ export const CartContextProvider: React.FC<{ children: ReactNode }> = ({ childre
     const addToBasketDecrease = useCallback((product: CardProductsProps) => {
         let uptdatedcart
         if (product.quantity == 1) {
-            
+
             return removeFromCart(product)
         }
         if (cartProducts) {

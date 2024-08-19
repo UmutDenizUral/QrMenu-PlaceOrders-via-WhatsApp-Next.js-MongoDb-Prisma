@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import prisma from '@/libs/prismadb'
 
-export async function GetPhone(request: Request, { params }: { params: { id: string } }) {
-
+export async function GET(request: Request, { params }: { params: { id: string } }) {
     try {
         if (!params.id) {
-            return
+            return NextResponse.json({ message: "Restaurant ID not provided" }, { status: 400 });
         }
+        console.log(params.id)
         const restaurantPhone = await prisma.restaurant.findUnique({
             where: {
                 id: params.id,
@@ -17,13 +17,12 @@ export async function GetPhone(request: Request, { params }: { params: { id: str
         });
 
         if (!restaurantPhone) {
-            return NextResponse.json({ message: "Submenu not found" }, { status: 404 });
+            return NextResponse.json({ message: "Restaurant not found" }, { status: 404 });
         }
-        console.log(restaurantPhone)
         return NextResponse.json(restaurantPhone);
 
     } catch (error) {
-        console.error("Failed to fetch submenu and categories", error);
+        console.error("Failed to fetch restaurant phone", error);
         return NextResponse.error();
     }
 }

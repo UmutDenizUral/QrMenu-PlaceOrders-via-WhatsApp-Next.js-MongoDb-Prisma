@@ -40,7 +40,7 @@ const User: React.FC<UserProps> = ({ currentUser }) => {
     }
   }
   return (
-    <div className="hidden md:flex relative">
+    <div className=" md:flex relative">
       <div onClick={() => setOpenMenu(!openMenu)} className="flex items-center gap-2 cursor-pointer text-yellow-600">
         <AiOutlineUser className="text-white" size="30" />
       </div>

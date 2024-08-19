@@ -11,7 +11,10 @@ export async function getRestPhone(params: RestaurantParams) {
             where: {
                 id: restaurantId
             },
-            select: { phone: true }
+            select: {
+                phone: true,
+                name: true
+            }
 
         });
         return restaurant;

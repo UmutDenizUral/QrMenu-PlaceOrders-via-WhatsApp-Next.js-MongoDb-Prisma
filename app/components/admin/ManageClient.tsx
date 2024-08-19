@@ -61,6 +61,7 @@ export default function ManageClient({ products, restaurantData }: any) {
                     id: product.id,
                     name: product.name,
                     price: product.price,
+                    description:product.description,
                     category: product.category.name,
                     categoryId: product.category.id,
                     submenuId: product.submenu.id,
@@ -180,11 +181,16 @@ export default function ManageClient({ products, restaurantData }: any) {
         setRowModesModel(newRowModesModel)
     }
     const columns: GridColDef[] = [
-        { field: 'id', headerName: 'ID', width: 200 },
-        { field: 'name', headerName: 'Ürüm Adı', width: 200, editable: true },
-        { field: 'price', headerName: 'Fiyat', width: 150, editable: true },
+     
+        { field: 'name', headerName: 'Ürün Adı', width: 200, editable: true },
+        { field: 'price', headerName: 'Fiyat', width: 120, editable: true },
+        
         {
-            field: 'category', headerName: 'Kategori', width: 200, editable: true,
+            field: 'submenu', headerName: 'Altmenü', width: 140, editable: true,
+            type: 'singleSelect', valueOptions: submenuOption.map((item: any) => item.name)
+        },
+        {
+            field: 'category', headerName: 'Kategori', width: 160, editable: true,
             type: 'singleSelect', valueOptions: (params: GridRowModel) => {
                 // Alt menüye bağlı kategorileri filtreleyin
                 const selectedSubmenu = params.row.submenuId;
@@ -198,10 +204,7 @@ export default function ManageClient({ products, restaurantData }: any) {
            
             },
         },
-        {
-            field: 'submenu', headerName: 'Altmenü', width: 200, editable: true,
-            type: 'singleSelect', valueOptions: submenuOption.map((item: any) => item.name)
-        },
+        { field: 'description', headerName: 'Açıklama', width: 330,editable:true },
         {
             field: 'actions',
             type: 'actions',
@@ -278,6 +281,22 @@ export default function ManageClient({ products, restaurantData }: any) {
                 processRowUpdate={processRowUpdate}
                 slotProps={{
                     toolbar: { setRows, setRowModesModel },
+                }}
+                sx={{
+                    height: 600,
+                    width: '100%',
+                    '& .MuiDataGrid-cell': {
+                      borderRight: '1px solid #e0e0e0', // Hücreler arasındaki dikey çizgi
+                    },
+                    '& .MuiDataGrid-row': {
+                      borderBottom: '1px solid #e0e0e0', // Hücreler arasındaki yatay çizgi
+                    },
+                    '& .MuiDataGrid-columnHeaders': {
+                      borderBottom: '2px solid #e0e0e0', // Başlık satırı altındaki çizgi
+                    },
+                    '& .MuiDataGrid-columnSeparator': {
+                      display: 'none', // Kolon başlıkları arasındaki ayracı gizlemek için
+                    }
                 }}
             />
         </Box>

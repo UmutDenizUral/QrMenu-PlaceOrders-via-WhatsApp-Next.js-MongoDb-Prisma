@@ -9,7 +9,7 @@ const CartCount = () => {
     <Link href={'/cart'}>
       <div className=" md:flex relative text-white hover:scale-110 transition-transform duration-300">
         <MdShoppingBasket size="30" />
-        <div className="absolute -top-1 -right-2 w-5 h-5 flex items-center justify-center text-xs rounded-full bg-yellow-600">
+        <div style={{ backgroundColor: 'ghostwhite' }} className="absolute -top-1 -right-2 w-5 border-2 border-slate-300 h-5 flex items-center justify-center text-xs rounded-full text-black">
           {cartProducts?.length||0} 
         </div>
       </div>

@@ -5,12 +5,16 @@ import { NextResponse } from 'next/server';
 //RegisterClient dan gelen istekle yeni kullanıcı oluşturma
 export async function POST(request: Request) {
     const body = await request.json()
-    const { name, email, password, restaurantName } = body;
+    const { name, email, password, restaurantName, phone, city, district, image } = body;
     const hashedPassword = await bcrypt.hash(password, 10)
-
+        
     const restaurant = await prisma.restaurant.create({
         data: {
             name: restaurantName,
+            phone: phone,
+            city: city,
+            district: district,
+            image: image
         },
     });
 

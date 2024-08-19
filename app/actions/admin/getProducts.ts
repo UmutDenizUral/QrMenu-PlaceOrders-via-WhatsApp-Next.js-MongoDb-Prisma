@@ -17,7 +17,7 @@ export async function getProducts() {
                 price: true,
                 image: true,
                 submenu: true,
-                categoryId: true,
+                category: true,
             }
         });
         return products;

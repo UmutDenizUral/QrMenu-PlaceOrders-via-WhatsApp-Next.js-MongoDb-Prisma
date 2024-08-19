@@ -3,6 +3,7 @@ import React from 'react'
 
 import { getRestaurant } from './admin/getRestaurant'
 import { getCategory } from './admin/getCategory'
+import FullFeaturedCrudGrid from '../components/admin/test'
 
 const page = async () => {
 
@@ -11,7 +12,7 @@ const page = async () => {
 
     return (
         <div>
-           {JSON.stringify(restaurant)}
+s
         </div>
     )
 }

@@ -19,6 +19,10 @@ datasource db {
 model Restaurant {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   name     String
+  phone    String?
+  city     String?
+  district String?
+  image    String?
   submenu  Submenu[]
   products Product[]
   user     User?     @relation(fields: [userId], references: [id])

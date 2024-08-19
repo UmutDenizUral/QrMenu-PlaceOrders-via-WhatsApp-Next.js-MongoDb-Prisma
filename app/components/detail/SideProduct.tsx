@@ -30,7 +30,7 @@ const SideProduct = ({ restrauntData }: any) => {
         }
     }, [drinks, promos, foods, desserts])
 
-
+console.log(option)
     return (
         <div className="sm:flex mt-2 w-full">
             <div id="içeçek" className="w-full p-2 overflow-y-auto max-h-[290px] sm:max-h-[500px]">
@@ -65,7 +65,7 @@ const SideProduct = ({ restrauntData }: any) => {
                 }
             </div>
 
-            <div id="Atıştırmalık" className=" w-full p-2 overflow-y-auto max-h-[290px]  sm:max-h-[500px] ">
+            <div id={option?.name} className=" w-full p-2 overflow-y-auto max-h-[290px]  sm:max-h-[500px] ">
                 <h4 className="sticky -top-2 bg-white z-10 flex items-center p-2 font-semibold">Atıştırmalık</h4>
                 {option ? <div>
                     {option?.products?.map((promo: any, i: any) => (

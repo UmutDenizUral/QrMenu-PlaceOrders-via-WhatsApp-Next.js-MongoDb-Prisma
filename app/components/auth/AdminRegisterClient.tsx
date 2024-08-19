@@ -11,17 +11,68 @@ import toast from "react-hot-toast"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { User } from "next-auth"
-import { useEffect } from "react"
-
+import { useEffect, useState } from "react"
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import firebaseApp from "@/libs/firebase";
 interface RegisterClientProps {
     currentUser: User | null | undefined
 }
 
 const AdminRegisterClient: React.FC<RegisterClientProps> = ({ currentUser }) => {
+    const [img, setImg] = useState<File | null>(null)
+
     const router = useRouter()
-    const { register, handleSubmit, watch, formState: { errors }, } = useForm<FieldValues>()
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        axios.post('api/adminRegister', data).then(() => {
+    const { register, handleSubmit, formState: { errors }, } = useForm<FieldValues>()
+
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+
+        let uploadedImg;
+        //firebase foto yükleme ve foto linki alma
+        const handleChange = async () => {
+            toast.success('Yükleme işlemi basarılı !!!')
+            try {
+                const storage = getStorage(firebaseApp);
+                const storageRef = ref(storage, `restrauntImages/${data.name}_${data.category}.jpg`);
+                const uploadTask = uploadBytesResumable(storageRef, img);
+                await new Promise<void>((resolve, reject) => {
+                    uploadTask.on('state_changed',
+                        (snapshot) => {
+                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            console.log('Upload is ' + progress + '% done');
+                            switch (snapshot.state) {
+                                case 'paused':
+                                    console.log('Upload is paused');
+                                    break;
+                                case 'running':
+                                    console.log('Upload is running');
+                                    break;
+                            }
+                        },
+                        (error) => {
+                            reject(error)
+                        },
+                        () => {
+                            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                                console.log('File available at', downloadURL);
+                                uploadedImg = downloadURL;
+                                resolve()
+                            }).catch((error) => {
+                                console.log(error)
+                            });
+                        }
+                    );
+                })
+            } catch (error) {
+                console.log(img)
+
+                console.log(error)
+            }
+        }
+        await handleChange()
+
+        let newData = { ...data, image: uploadedImg }
+        //datayı gönderme işlemi
+        axios.post('api/adminRegister', newData).then(() => {
             console.log('Login Client axios post yaptı Çalıştı')
 
             toast.success('kullanıcı oluşturuldu')
@@ -43,6 +94,12 @@ const AdminRegisterClient: React.FC<RegisterClientProps> = ({ currentUser }) => 
             })
         })
     }
+
+    const onChangeFunc = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            setImg(e.target.files[0])
+        }
+    }
     useEffect(() => {
         if (currentUser) {
             router.push('/')
@@ -57,6 +114,10 @@ const AdminRegisterClient: React.FC<RegisterClientProps> = ({ currentUser }) => 
                 <Input placeholder="Email" type="text" id="email" register={register} errors={errors} required />
                 <Input placeholder="Parola" type="password" id="password" register={register} errors={errors} required />
                 <Input placeholder="Restoran Adı" type="text" id="restaurantName" register={register} errors={errors} required />
+                <Input placeholder="İl" type="text" id="city" register={register} errors={errors} required />
+                <Input placeholder="İlçe" type="text" id="district" register={register} errors={errors} required />               
+                <Input placeholder="Telefon numarası" type="text" id="phone" register={register} errors={errors} required />
+                <input className="my-2" type="file" onChange={onChangeFunc} />
                 <Button text="Kayıt Ol" onClick={handleSubmit(onSubmit)} />
                 <div className="text-center my-2 text-sm text-red-400">Hesabın varsa <Link className="underline" href='/login'>buraya tıkla</Link></div>
                 <div className="text-center my-2 text-lg font-bold">OR</div>

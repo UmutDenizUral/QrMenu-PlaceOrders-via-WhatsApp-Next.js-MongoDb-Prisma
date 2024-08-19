@@ -2,7 +2,6 @@
 import React, { createContext, useCallback, useState, useContext, ReactNode, useEffect } from 'react';
 import toast from 'react-hot-toast';
 
-
 // CartContext için props tipi
 interface CartContextProps {
     productCartQty: number
@@ -28,6 +27,7 @@ export type CardProductsProps = { //sill
     submenu: string
     category: string;
     image: string;
+    restaurantId: String
     isinCart: boolean
 }
 
@@ -55,15 +55,16 @@ export const CartContextProvider: React.FC<{ children: ReactNode }> = ({ childre
             submenu: product.submenu,
             category: product.category,
             image: product.image,
+            restaurantId: product.restaurantId,
             isinCart: true
         }    
-        setCartProducts(prev => prev ? [...prev, CardProductData] : [CardProductData]); 
-        if(cartProducts){
-             let uptdatedcart = [...cartProducts]      
-        localStorage.setItem('cart', JSON.stringify(uptdatedcart))
-        }
+        setCartProducts(prev => {
+            const updatedCart = prev ? [...prev, CardProductData] : [CardProductData];
+            localStorage.setItem('cart', JSON.stringify(updatedCart))
+            return updatedCart;
+        });
        
-    }, []);
+    }, [cartProducts]);
     const addToBasketIncrease = useCallback((product: CardProductsProps) => {
         let uptdatedcart
         if (product.quantity == 10) {

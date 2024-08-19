@@ -25,7 +25,7 @@ const AdminSidebar = () => {
         
     ]
     return (
-        <div className="w-1/6 border-r h-screen">
+        <div className="min-w-[175px] mb-2 border-b-2 border-gray-700 md:w-1/6 md:border-r md:h-screen">
 
             {adminPanel.map((admin, i) => (
                 <AdminSidebarItem key={i} selected={pathName == admin.url} url={admin.url} icon={admin.icon} name={admin.name} />

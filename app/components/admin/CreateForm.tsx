@@ -4,13 +4,13 @@ import { RiDrinks2Line } from "react-icons/ri";
 import { LuIceCream2 } from "react-icons/lu";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import firebaseApp from "@/libs/firebase";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import Heading from "../general/Heading"
 import Input from "../general/Input"
 import ChoiceInput from "../general/ChoiceInput";
 import Button from "../general/Button";
 import { useEffect, useState } from "react";
-import firebaseApp from "@/libs/firebase";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";

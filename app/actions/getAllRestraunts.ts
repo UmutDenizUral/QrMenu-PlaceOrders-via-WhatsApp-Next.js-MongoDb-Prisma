@@ -9,6 +9,11 @@ export async function getAllRestaurants() {
                 id: true,
                 name: true,
                 submenu: true,
+                phone:true,
+                city:true,
+                district:true,
+                image:true
+            
             }
         });
         return restaurant;

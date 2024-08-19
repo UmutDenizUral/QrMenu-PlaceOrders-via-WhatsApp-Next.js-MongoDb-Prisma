@@ -26,7 +26,7 @@ export async function POST(request: Request) {
             categoryId: categoryId,// `category  ` yerine `categoryId` kullanılmalı
             price: parseFloat(price),
             ingredients: capitalizeFirstLetter(ingredients),
-            image
+            image:image
         }
     });
     return NextResponse.json(product)

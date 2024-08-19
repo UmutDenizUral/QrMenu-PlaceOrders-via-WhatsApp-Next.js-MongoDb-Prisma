@@ -23,7 +23,7 @@ const ProductSection: React.FC<SectionProps> = ({ restaurantData }: any) => {
     <div className='mx-3'>
       <h2> {restaurantData.name}</h2>
       {
-        restaurantData.submenu.map((submenu: any, i: any) => (
+        restaurantData?.submenu?.map((submenu: any, i: any) => (
 
           submenu?.products?.length > 0 ?
             <div key={i}>

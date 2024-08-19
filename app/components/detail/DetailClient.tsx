@@ -16,10 +16,6 @@ const DetailClient = ({ product }: any) => {
 
     const { addToBasket, cartProducts } = useCart()
 
-
-    const drinks: any = products.filter(drink => drink.submenu == 'İçecek')
-    const promos: any = products.filter(promo => promo.submenu == 'Atıştırmalık')
-
     const { id, name, description, price, ingredients, image } = product
     return (
         

@@ -1,19 +1,27 @@
 //yapılacaklar
 /*
 öncelikliler:
--restrant tel no ve foto eklenecek
--form verilerini resetlenecek ürün yükledikten sonra photo yükleme alanı resetlenecek kategori alanı kontrol edilecek
--rastgele ürün seç gelicek
+-sepete ekle diyince detail sayfasına gitmesin 
+-restrant tel no ve foto  dbye eklendi restrant cart bölümünde gösterilecek wp siparişi restrana göre dinamik gelecek
 -admin panli ürünleri yönet kısmında fiyat güncellemesi yapılacak
--admin paneli restrant banner foto ekleme ve menü oluştur gelicek
+-kullanıcı progiline  adres bilgileri ve kişisel bilgileri güncelleme gelecek  favori yemekler eklenecek
+-rastgele ürün seç gelicek  
+-form verilerini resetlenecek ürün yükledikten sonra photo yükleme alanı resetlenecek kategori alanı kontrol edilecek
 -searchbox yapılacak
+-admin paneli restrant banner foto ekleme 
+
 
 
 yapılacak geliştirmeler:
 
 -ingridients filtreleme özelliği gelecek
 -google hesabı gerçek mi kontrolü yapılacak
+-sepetin altına sideproducts gelicek
+-admin paneli menü oluştur gelicek
+*/
 
+/*
+sorularım: manageClient-createrom kontrolü
 */
 
 // Firebase config dosyası itemleri .env içinde neden kullanamıyorum

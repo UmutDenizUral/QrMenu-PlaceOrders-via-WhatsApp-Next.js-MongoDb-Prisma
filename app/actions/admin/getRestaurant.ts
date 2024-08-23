@@ -13,19 +13,19 @@ export async function getRestaurant() {
         // Restoranın tüm ilgili bilgilerini çek
         const restaurant = await prisma.restaurant.findUnique({
             where: {
-                id: restaurantId // Restoran ID'sine göre sorgulama yap
+                id: restaurantId 
             },
             include: {
                 submenu: {
                     include: {
                         category: {
                             include: {
-                                products: true // Kategorilerin içindeki ürünleri de getir
+                                products: true 
                             }
                         }
                     }
                 },
-                products: true // Restoranın tüm ürünlerini getir
+                products: true 
             }
         });
         return restaurant;

@@ -1,9 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-
 const RestrauntCard = ({ restaurantData }: { restaurantData: any }) => {
-    console.log(restaurantData)
     return (
         <Link href={`/restaurant/${restaurantData.id}`}>
             <div className='flex items-center justify-start gap-3 shadow border-b-2 p-1 w-full rounded  md:min-w-[400px] transition-all duration-300 ease-in-out hover:border-yellow-600 hover:text-yellow-700'>
@@ -16,11 +14,9 @@ const RestrauntCard = ({ restaurantData }: { restaurantData: any }) => {
                         className='object-cover ' />
                 </div>
                 <div className='flex flex-col gap-2'>
-
                     <p className='font-bold text-lg'>{restaurantData.name}</p>
                     <p className='text-base'>{restaurantData.phone}</p>
                     <p className='text-sm'>{restaurantData.city}/{restaurantData.district}</p>
-
                 </div>
             </div>
         </Link>

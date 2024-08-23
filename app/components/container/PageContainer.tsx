@@ -1,4 +1,3 @@
-import React from 'react'
 
 const PageContainer = ({ children,center }: { children: React.ReactNode , center?:boolean }) => {
     return (

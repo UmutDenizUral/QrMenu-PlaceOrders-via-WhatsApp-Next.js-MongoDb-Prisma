@@ -9,7 +9,7 @@ import { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "UDU Yemek",
+  title: "udulab Menu",
   description: "Ücretsiz Qr menünüzü yükleyin 0 komisyon whatsapp ile siparişinizi alın",
 };
 
@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} font-mono`}>
+      <body className={`${inter.className}  font-serif`}>
         <Toaster position="top-right" reverseOrder={false} />
         <CartProvider>
           <div className="flex flex-col min-h-screen">

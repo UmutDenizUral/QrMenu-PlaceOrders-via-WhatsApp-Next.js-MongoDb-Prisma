@@ -16,10 +16,9 @@ import firebaseApp from "@/libs/firebase";
 interface RegisterClientProps {
     currentUser: User | null | undefined
 }
-
+//Yeni restoran ve admin açma formu 
 const AdminRegisterClient: React.FC<RegisterClientProps> = ({ currentUser }) => {
-    const [img, setImg] = useState<File | null>(null)
-
+    const [img, setImg] = useState<any>(null)
     const router = useRouter()
     const { register, handleSubmit, formState: { errors }, } = useForm<FieldValues>()
 
@@ -71,7 +70,7 @@ const AdminRegisterClient: React.FC<RegisterClientProps> = ({ currentUser }) => 
 
         let newData = { ...data, image: uploadedImg }
         //datayı gönderme işlemi
-        axios.post('api/adminRegister', newData).then(() => {
+        axios.post('/api/adminRegister', newData).then(() => {
             console.log('Login Client axios post yaptı Çalıştı')
 
             toast.success('kullanıcı oluşturuldu')
@@ -93,7 +92,6 @@ const AdminRegisterClient: React.FC<RegisterClientProps> = ({ currentUser }) => 
             })
         })
     }
-
     const onChangeFunc = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
             setImg(e.target.files[0])
@@ -114,7 +112,7 @@ const AdminRegisterClient: React.FC<RegisterClientProps> = ({ currentUser }) => 
                 <Input placeholder="Parola" type="password" id="password" register={register} errors={errors} required />
                 <Input placeholder="Restoran Adı" type="text" id="restaurantName" register={register} errors={errors} required />
                 <Input placeholder="İl" type="text" id="city" register={register} errors={errors} required />
-                <Input placeholder="İlçe" type="text" id="district" register={register} errors={errors} required />               
+                <Input placeholder="İlçe" type="text" id="district" register={register} errors={errors} required />
                 <Input placeholder="Telefon numarası" type="text" id="phone" register={register} errors={errors} required />
                 <input className="my-2" type="file" onChange={onChangeFunc} />
                 <Button text="Kayıt Ol" onClick={handleSubmit(onSubmit)} />
@@ -123,5 +121,4 @@ const AdminRegisterClient: React.FC<RegisterClientProps> = ({ currentUser }) => 
         </AuthContainer>
     )
 }
-
 export default AdminRegisterClient

@@ -11,10 +11,11 @@ import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { User } from "next-auth"
 import { useEffect } from "react"
+
 interface LoginClientProps {
     currentUser: User | null | undefined
 }
-
+//Kullanıcı girişi formu
 const LoginClient: React.FC<LoginClientProps> = ({ currentUser }) => {
     const router = useRouter()
     const {
@@ -24,8 +25,6 @@ const LoginClient: React.FC<LoginClientProps> = ({ currentUser }) => {
         formState: { errors },
     } = useForm<FieldValues>()
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log('Login Client Çalıştı')
-
         signIn('credentials', {
             ...data,
             redirect: false
@@ -35,7 +34,6 @@ const LoginClient: React.FC<LoginClientProps> = ({ currentUser }) => {
                 router.push('/')
                 router.refresh()
                 toast.success('Login işlemi başarılı')
-
             }
             if (callback?.error) {
                 toast.error(callback.error)
@@ -55,15 +53,13 @@ const LoginClient: React.FC<LoginClientProps> = ({ currentUser }) => {
             <div className="w-full md:w-[500px] p-3 shadow-lg rounded-md">
                 <Heading text="Giriş Yap" center />
                 <Input placeholder="Email" type="text" id="email" register={register} errors={errors} required />
-                <Input placeholder="Parola" type="password" id="password" register={register} errors={errors} required />
+                <Input  placeholder="Parola" type="password" id="password" register={register} errors={errors} required />
                 <Button text="Giriş Yap" onClick={handleSubmit(onSubmit)} />
                 <div className="text-center my-2 text-sm text-red-400">Daha önce Kayıt olmadıysa <Link className="underline" href='/register'>buraya tıkla</Link></div>
                 <div className="text-center my-2 text-lg font-bold">OR</div>
                 <Button text="Google ile Giriş Yap" icon={FaGoogle} outline onClick={()=>signIn('google')} />
-
             </div>
         </AuthContainer>
-
     )
 }
 

@@ -2,6 +2,7 @@ import { getCurrentUser } from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
 import prisma from '@/libs/prismadb';
 
+//admin paneli ürün güncelleme
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
     console.log(params)
     const currentUser = await getCurrentUser();
@@ -21,14 +22,15 @@ export async function PUT(request: Request, { params }: { params: { id: string }
         data: {
             name: name,
             description: description,
-            restaurantId: restaurantId,// `restaurant` yerine `restaurantId` kullanılmalı
+            restaurantId: restaurantId,
             submenuId: submenuId,
-            categoryId: categoryId,// `category  ` yerine `categoryId` kullanılmalı
+            categoryId: categoryId,
             price: parseFloat(price),
             ingredients: ingredients,
             image
         }
     });
+    console.log
 
     return NextResponse.json(product);
 }

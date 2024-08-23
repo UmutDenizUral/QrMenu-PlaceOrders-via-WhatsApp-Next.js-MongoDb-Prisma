@@ -12,7 +12,7 @@ interface UserProps {
 const User: React.FC<UserProps> = ({ currentUser }) => {
   const router = useRouter()
   const [openMenu, setOpenMenu] = useState(false)
-  const menuRef = useRef<HTMLDivElement>(null) // Ref ekleme
+  const menuRef = useRef<HTMLDivElement>(null)
 
   // Menü kapalıyken tıklama olayını dinlemek için useEffect
   useEffect(() => {
@@ -48,19 +48,25 @@ const User: React.FC<UserProps> = ({ currentUser }) => {
         openMenu && (
           <div ref={menuRef} className="absolute w-[180px] z-20 top-10 bg-white shadow-lg right-0 p-2 rounded-md">
             {
-              currentUser ? (
-                <div className="space-y-1">
-                  {currentUser.role === 'ADMIN' ?
-                    <div onClick={() => router.push('/admin')} className="text-slate-600 cursor-pointer">Admin Paneline Gir</div>
-                    : <div onClick={() => router.push('/')} className="text-slate-600 cursor-pointer">{currentUser ? currentUser.name : "User"}</div>}
-                  <div onClick={() => menuFunc("logout")} className="text-slate-600 cursor-pointer">Çıkış Yap</div>
-                </div>
-              ) : (
-                <div>
-                  <div onClick={() => menuFunc("login")} className="text-slate-600 cursor-pointer mb-2 hover:text-yellow-600">Giriş Yap</div>
-                  <div onClick={() => menuFunc("register")} className="text-slate-600 cursor-pointer mb-2 hover:text-yellow-600 ">Kayıt Ol</div>
-                </div>
-              )
+              currentUser
+                ?
+                (
+                  <div className="space-y-1">
+                    {currentUser.role === 'ADMIN'
+                      ?
+                      <div onClick={() => router.push('/admin')} className="text-slate-600 cursor-pointer">Admin Paneline Gir</div>
+                      :
+                      <div onClick={() => router.push('/')} className="text-slate-600 cursor-pointer">{currentUser ? currentUser.name : "User"}</div>}
+                    <div onClick={() => menuFunc("logout")} className="text-slate-600 cursor-pointer">Çıkış Yap</div>
+                  </div>
+                )
+                :
+                (
+                  <div>
+                    <div onClick={() => menuFunc("login")} className="text-slate-600 cursor-pointer mb-2 hover:text-yellow-600">Giriş Yap</div>
+                    <div onClick={() => menuFunc("register")} className="text-slate-600 cursor-pointer mb-2 hover:text-yellow-600 ">Kayıt Ol</div>
+                  </div>
+                )
             }
           </div>
         )

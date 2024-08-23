@@ -1,9 +1,8 @@
 import { getCurrentUser } from '@/app/actions/getCurrentUser';
-import { getSubmenu } from '@/app/actions/getSubmenu';
 import prisma from '@/libs/prismadb'
 import { NextResponse } from "next/server";
 
-//Adding product
+//Admin paneli yeni category ekleme
 export async function POST(request: Request) {
 
     const capitalizeFirstLetter = (string: string) => {

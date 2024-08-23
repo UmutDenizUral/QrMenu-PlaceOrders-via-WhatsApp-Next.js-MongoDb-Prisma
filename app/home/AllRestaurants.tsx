@@ -1,9 +1,7 @@
-import React from 'react'
-import Restaurants from '../restaurant/[restaurantid]/page'
 import RestrauntCard from './RestrauntCard'
 
 const AllRestraunts = (data: any) => {
-    console.log(data)
+    
     if (!data) {
         return <div>Bir hata durumu mevcut lütfen bekleyiniz</div>
     }
@@ -11,10 +9,8 @@ const AllRestraunts = (data: any) => {
     return (
         <div className='mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 w-full   '>
             {
-                data.data.map((restaurant: any, id: any) =>
-                    <RestrauntCard key={id} restaurantData={restaurant} />)
+                data.data.map((restaurant: any, id: any) => <RestrauntCard key={id} restaurantData={restaurant} />)
             }
-
         </div>
     )
 }

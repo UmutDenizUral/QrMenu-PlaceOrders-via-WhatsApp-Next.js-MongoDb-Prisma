@@ -1,7 +1,8 @@
 import { getCurrentUser } from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
 import prisma from '@/libs/prismadb'
-""
+
+//Admin paneli ürün oluştururken submenulere göre category seçilmesi
 export async function GET(request: Request, { params }: { params: { id: string } }) {
     const currentUser = await getCurrentUser();
     if (!currentUser || currentUser.role !== "ADMIN") {
@@ -12,13 +13,11 @@ export async function GET(request: Request, { params }: { params: { id: string }
         if (!params.id) {
             return
         }
-        // Submenu'nun altındaki kategoriler ile birlikte çekilmesi
         const submenu = await prisma.submenu.findUnique({
             where: {
                 id: params.id,
             },
             include: {
-                // Submenu'nun altında bulunan kategorileri de içerecek şekilde
                 category: true,
             },
         });

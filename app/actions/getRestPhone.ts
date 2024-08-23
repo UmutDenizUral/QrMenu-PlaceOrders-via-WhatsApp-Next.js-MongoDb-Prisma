@@ -5,7 +5,6 @@ interface RestaurantParams {
 }
 export async function getRestPhone(params: RestaurantParams) {
     const { restaurantId } = params
-
     try {
         const restaurant = await prisma.restaurant.findUnique({
             where: {
@@ -15,7 +14,6 @@ export async function getRestPhone(params: RestaurantParams) {
                 phone: true,
                 name: true
             }
-
         });
         return restaurant;
     } catch (error) {

@@ -5,7 +5,6 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import SaveIcon from '@mui/icons-material/Save'
 import CancelIcon from '@mui/icons-material/Close'
 import {
-    GridRowsProp,
     GridRowModesModel,
     GridRowModes,
     DataGrid,
@@ -23,35 +22,40 @@ import toast from 'react-hot-toast'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 
+type UniqueCategoriesProps = {
+    id: string
+    name: string
+    submenuId: string
+}
 
-export default function ManageClient({ products, restaurantData }: any) {
+//admin panel ürün yönetme 
+export default function ManageClient({ products, restaurantData }: {products: any,restaurantData : any}) {
     const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({})
     const [rows, setRows] = useState<any>()
     const [submenuOption, setSubmenuOption] = useState([])
-    const [categoryOption, setCategoryOption] = useState([])
+    const [categoryOption, setCategoryOption] = useState<UniqueCategoriesProps[]>([])
     const router = useRouter()
     const storage = getStorage(firebaseApp)
 
-
-
+    //ürün yönetimi  kategori getirme
     const getCategory = (restaurantData: any) => {
-        const uniqueCategories: { id: string; name: string; submenuId: string }[] = [];
+        const uniqueCategories: UniqueCategoriesProps[] = []
         restaurantData.submenu.forEach((submenu: any) => {
             submenu.category.forEach((category: any) => {
                 // Kategorinin daha önce eklenip eklenmediğini kontrol et
                 const isCategoryExists = uniqueCategories.some(
                     (item) => item.id === category.id
-                );
+                )
                 // Eğer kategori mevcut değilse, benzersiz kategoriler dizisine ekle
                 if (!isCategoryExists) {
                     uniqueCategories.push({
                         id: category.id,
                         name: category.name,
                         submenuId: category.submenuId
-                    });
+                    })
                 }
-            });
-        });
+            })
+        })
         setCategoryOption(uniqueCategories);
     }
     useEffect(() => {
@@ -61,7 +65,7 @@ export default function ManageClient({ products, restaurantData }: any) {
                     id: product.id,
                     name: product.name,
                     price: product.price,
-                    description:product.description,
+                    description: product.description,
                     category: product.category.name,
                     categoryId: product.category.id,
                     submenuId: product.submenu.id,
@@ -103,9 +107,7 @@ export default function ManageClient({ products, restaurantData }: any) {
             toast('Silme işlemi iptal edildi.')
             return
         }
-
         toast.success('Silme işlemi devam ediyor...')
-
         const rowToDelete = rows.find((row: any) => row.id === id)
         if (rowToDelete) {
             const imageToDelete = rowToDelete.image
@@ -148,25 +150,21 @@ export default function ManageClient({ products, restaurantData }: any) {
     //Dataya güncelleyen func
     const processRowUpdate = async (newRow: GridRowModel) => {
         const updatedRow = { ...newRow };
-        console.log('newRow:', newRow.submenu)
 
-        if(newRow.category == 'Bu alt menüye ait kategori seçemezsiniz'){
+        if (newRow.category == 'Bu alt menüye ait kategori seçemezsiniz') {
             toast.error('Kategori seçimi yanlış')
             return
         }
-        // Eğer submenuId seçildi ise submenu alanını güncelle
+        // Eğer submenuId seçildi ise submenu alanını güncelleyen func
         const selectedSubmenu: any = submenuOption.find((option: any) => option.name === newRow.submenu);
-        console.log('selectedSubmenu:', selectedSubmenu)
         if (selectedSubmenu) {
             updatedRow.submenuId = selectedSubmenu.id;
             updatedRow.submenu = selectedSubmenu.name;
         }
 
-        console.log(updatedRow);
         setRows(rows.map((row: any) => (row.id === newRow.id ? updatedRow : row)));
 
         try {
-            // API'ye güncellenmiş veriyi gönder
             await axios.put(`/api/product/update/${updatedRow.id}`, updatedRow);
             toast.success('Güncelleme başarılı!');
         } catch (error) {
@@ -181,10 +179,10 @@ export default function ManageClient({ products, restaurantData }: any) {
         setRowModesModel(newRowModesModel)
     }
     const columns: GridColDef[] = [
-     
+
         { field: 'name', headerName: 'Ürün Adı', width: 200, editable: true },
         { field: 'price', headerName: 'Fiyat', width: 120, editable: true },
-        
+
         {
             field: 'submenu', headerName: 'Altmenü', width: 140, editable: true,
             type: 'singleSelect', valueOptions: submenuOption.map((item: any) => item.name)
@@ -192,19 +190,17 @@ export default function ManageClient({ products, restaurantData }: any) {
         {
             field: 'category', headerName: 'Kategori', width: 160, editable: true,
             type: 'singleSelect', valueOptions: (params: GridRowModel) => {
-                // Alt menüye bağlı kategorileri filtreleyin
                 const selectedSubmenu = params.row.submenuId;
-
                 const filteredCategories = categoryOption.filter(
                     (category: any) => category.submenuId === selectedSubmenu
                 );
-                return filteredCategories.length === 0 
-                ? ['Bu alt menüye ait kategori seçemezsiniz'] 
-                : filteredCategories.map((category: any) => category.name);
-           
+                return filteredCategories.length === 0
+                    ? ['Bu alt menüye ait kategori seçemezsiniz']
+                    : filteredCategories.map((category: any) => category.name);
+
             },
         },
-        { field: 'description', headerName: 'Açıklama', width: 330,editable:true },
+        { field: 'description', headerName: 'Açıklama', width: 330, editable: true },
         {
             field: 'actions',
             type: 'actions',
@@ -232,7 +228,6 @@ export default function ManageClient({ products, restaurantData }: any) {
                         />,
                     ]
                 }
-
                 return [
                     <GridActionsCellItem
                         icon={<EditIcon />}
@@ -286,16 +281,16 @@ export default function ManageClient({ products, restaurantData }: any) {
                     height: 600,
                     width: '100%',
                     '& .MuiDataGrid-cell': {
-                      borderRight: '1px solid #e0e0e0', // Hücreler arasındaki dikey çizgi
+                        borderRight: '1px solid #e0e0e0', // Hücreler arasındaki dikey çizgi
                     },
                     '& .MuiDataGrid-row': {
-                      borderBottom: '1px solid #e0e0e0', // Hücreler arasındaki yatay çizgi
+                        borderBottom: '1px solid #e0e0e0', // Hücreler arasındaki yatay çizgi
                     },
                     '& .MuiDataGrid-columnHeaders': {
-                      borderBottom: '2px solid #e0e0e0', // Başlık satırı altındaki çizgi
+                        borderBottom: '2px solid #e0e0e0', // Başlık satırı altındaki çizgi
                     },
                     '& .MuiDataGrid-columnSeparator': {
-                      display: 'none', // Kolon başlıkları arasındaki ayracı gizlemek için
+                        display: 'none', // Kolon başlıkları arasındaki ayracı gizlemek için
                     }
                 }}
             />

@@ -7,7 +7,7 @@ const AboutPage = () => {
         {/* Hakkımızda Başlığı */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-4">Hakkımızda</h1>
-          <p className="text-lg text-gray-600">Biz kimiz ve ne yapıyoruz?</p>
+          <p className="text-lg text-gray-600">Restoran hesabı açarak kendi menünüzü oluşturun!</p>
         </div>
 
         {/* Şirket Hakkında Bilgi */}
@@ -25,7 +25,7 @@ const AboutPage = () => {
             <div className="w-full md:w-1/2 md:pl-8 mt-6 md:mt-0">
               <h2 className="text-2xl font-semibold mb-4">Biz Kimiz?</h2>
               <p className="text-gray-700">
-                Biz, yüksek kaliteli takı ve t-shirtlerin tasarımında ve üretiminde uzmanlaşmış bir şirketiz. Müşterilerimize şıklığı ve rahatlığı bir arada sunmayı amaçlıyoruz. Yılların deneyimi ve tutkusuyla, her bir ürünümüzü titizlikle tasarlıyor ve üretiyoruz.
+                Restoran hesabı açarak kendi menünüzü kolaylıkla oluşturabilirsiniz. Müşteriler QR kodunuzu okutarak doğrudan restoranınızın menüsüne ulaşabilir. Sepete eklenen ürünler sipariş tamamlandığında restoran sahibinin WhatsApp'ına mesaj olarak iletilir.
               </p>
             </div>
           </div>
@@ -38,26 +38,23 @@ const AboutPage = () => {
             <div>
               <h3 className="text-xl font-medium mb-2">Misyonumuz</h3>
               <p className="text-gray-700">
-                Müşterilerimize yüksek kaliteli ve zarif ürünler sunarak onların özel anlarını daha da anlamlı hale getirmek. Sürdürülebilirlik ve müşteri memnuniyeti her zaman önceliğimizdir.
+                Restoranların kendi menülerini oluşturup, aracı firmalara komisyon ödemeden kendi kuryeleriyle sipariş teslim etmelerine olanak sağlamak.
               </p>
             </div>
             <div>
               <h3 className="text-xl font-medium mb-2">Vizyonumuz</h3>
               <p className="text-gray-700">
-                Takı ve giyim endüstrisinde yenilikçi ve öncü bir marka olmak. Dünyanın dört bir yanındaki müşterilere, onların tarzlarına uygun en iyi ürünleri sunmayı hedefliyoruz.
+                Restoran sektöründe dijitalleşmeyi destekleyerek, restoran sahiplerinin maliyetlerini azaltmak ve müşteri memnuniyetini artırmak.
               </p>
             </div>
           </div>
         </div>
-
-       
-
         {/* İletişim Bilgileri */}
         <div className="bg-white p-8 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold mb-4">İletişim Bilgileri</h2>
-          <p className="text-gray-700 mb-2">E-posta: info@firma.com</p>
-          <p className="text-gray-700 mb-2">Telefon: +90 123 456 78 90</p>
-          <p className="text-gray-700">Adres: Örnek Mah. 123. Sok. No:45, İstanbul, Türkiye</p>
+          <p className="text-gray-700 mb-2">E-posta: uduve08@gmail.com</p>
+          <p className="text-gray-700 mb-2">Telefon: +90 535 647 7909</p>
+          <p className="text-gray-700">Adres: İstanbul/Üsküdar, Türkiye</p>
         </div>
       </div>
     </div>
@@ -65,29 +62,3 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
-
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
-
-async function main() {
-    console.log('çalıştı')
-    try {
-        // Yeni bir kullanıcı ekleme
-        const newUser = await prisma.user.create({
-            data: {
-                name: 'John Doe',
-                email: 'john.doe@example.com',
-                role: 'USER',
-            },
-        });
-
-        console.log('User created:', newUser);
-    } catch (error) {
-        console.error('Error creating user:', error);
-    } finally {
-        await prisma.$disconnect();
-    }
-}
-
-main();

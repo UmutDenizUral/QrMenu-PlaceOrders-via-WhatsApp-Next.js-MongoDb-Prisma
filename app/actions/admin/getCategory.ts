@@ -3,15 +3,14 @@ import { getCurrentUser } from '../getCurrentUser';
 
 export async function getCategory() {
     const user = await getCurrentUser()
-    const restaurantId: any = user?.restaurantId
+    const restaurantId = user?.restaurantId
     try {
-
         if (!restaurantId) {
             return null
         }
         const submenu = await prisma.category.findMany({
             where: {
-                id: restaurantId // Restoran ID'sine göre sorgulama yap
+                id: restaurantId
             },
             select: {
                 id: true,

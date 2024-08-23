@@ -11,7 +11,7 @@ export async function getSubmenu() {
         }
         const submenu = await prisma.submenu.findMany({
             where: {
-                id: restaurantId // Restoran ID'sine göre sorgulama yap
+                id: restaurantId 
             },
             select: {
                 id: true,

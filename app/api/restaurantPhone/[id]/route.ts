@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from '@/libs/prismadb'
 
+// whatsapp için restran telefon numarası bilgisi alma
 export async function GET(request: Request, { params }: { params: { id: string } }) {
     try {
         if (!params.id) {

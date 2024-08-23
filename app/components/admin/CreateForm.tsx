@@ -16,26 +16,25 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import CreateCategory from "./CreateCategory";
 
+// admin paneli ürün oluşturma sayfası
 const CreateForm = ({ restaurant }: any) => {
-   const [img, setImg] = useState<File | null>(null)
+   const [img, setImg] = useState<any>(null)
    const [selectedSubmenu, setSelectedSubmenu] = useState<string | null>(null);
    const [selectedSubmenuId, setSelectedSubmenuId] = useState<string | null>(null);
    const [category, setCategory] = useState<any>([])
    const router = useRouter();
 
-
    //submenu iconları eşleştirme func
    const getSubmenuWithIcons = (submenus: any[], submenuList: any[]) => {
-      // submenuList'i bir nesneye dönüştürerek daha hızlı erişim sağlar
       const submenuMap = submenuList.reduce((acc: any, submenu) => {
          acc[submenu.name] = submenu.icon;
          return acc;
       }, {});
 
-      // Submenu verilerini ve ikonları birleştir
+      // Submenu verilerini ve ikonları birleştirir
       return submenus.map((submenu) => ({
          ...submenu,
-         icon: submenuMap[submenu.name] || IoFastFoodOutline // İkonu eşleştir, bulunamazsa null döndür
+         icon: submenuMap[submenu.name] || IoFastFoodOutline
       }));
    };
    const submenuList = [
@@ -82,14 +81,13 @@ const CreateForm = ({ restaurant }: any) => {
    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
 
       if (!selectedSubmenu) {
-         // Submenu seçilmemişse hata gösterebiliriz
          toast.error('Lütfen bir alt menü seçin.');
          return;
       }
       let uploadedImg;
       //firebase foto yükleme ve foto linki alma
       const handleChange = async () => {
-         toast.success('Yükleme işlemi basarılı !!!')
+         toast.success('Yükleme işlemi devam ediyor!!!')
          try {
             const storage = getStorage(firebaseApp);
             const storageRef = ref(storage, `images/${data.name}_${data.category}.jpg`);
@@ -179,7 +177,9 @@ const CreateForm = ({ restaurant }: any) => {
          <Input placeholder="Ad" type="text" id="name" register={register} errors={errors} required />
          <Input placeholder="Acıklama" type="text" id="description" register={register} errors={errors} />
          <Input placeholder="Fiyat" type="number" id="price" register={register} errors={errors} required />
-         <Input placeholder="Malzemeler" type="string" id="ingredients" register={register} errors={errors} />
+         
+         {/*kullanımda değil
+          <Input placeholder="Malzemeler" type="string" id="ingredients" register={register} errors={errors} /> */}
 
          <div className="flex flex-wrap gap-3 ">
             {updatedSubmenu.map((item, i) => (
@@ -199,7 +199,7 @@ const CreateForm = ({ restaurant }: any) => {
          <div>
             {selectedSubmenu !== null ?
                <div className="flex flex-grow items-center justify-between gap-3">
-                  <select  required {...register("categoryId", { required: true })} className={`block w-1/4 border border-gray-300 rounded-md p-2 ${errors ? '' : 'border border-slate-300'}`} >
+                  <select required {...register("categoryId", { required: true })} className={`block w-1/4 border border-gray-300 rounded-md p-2 ${errors ? '' : 'border border-slate-300'}`} >
                      <option value="">Kategori Seçin</option>
                      {category.map((category: any) => (
                         <option key={category.id} value={category.id}>

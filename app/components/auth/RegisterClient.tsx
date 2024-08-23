@@ -17,22 +17,18 @@ interface RegisterClientProps {
     currentUser: User | null | undefined
 }
 
-
+//Kayıt ol formu
 const RegisterClient: React.FC<RegisterClientProps> = ({ currentUser }) => {
     const router = useRouter()
     const { register, handleSubmit, watch, formState: { errors }, } = useForm<FieldValues>()
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         axios.post('api/register', data).then(() => {
-            console.log('Login Client axios post yaptı Çalıştı')
-
             toast.success('kullanıcı oluşturuldu')
             signIn('credentials', {
                 email: data.email,
                 password: data.password,
                 redirect: false
             }).then((callback) => {
-                console.log('Login Client İÇİNDE SİGN İN çalıştı')
-
                 if (callback?.ok) {
                     router.push('/')
                     router.refresh()
@@ -61,9 +57,7 @@ const RegisterClient: React.FC<RegisterClientProps> = ({ currentUser }) => {
                 <div className="text-center my-2 text-sm text-red-400">Hesabın varsa <Link className="underline" href='/login'>buraya tıkla</Link></div>
                 <div className="text-center my-2 text-lg font-bold">OR</div>
                 <Button text="Google ile üye ol" icon={FaGoogle} outline onClick={() => signIn('google')} />
-
                 <div className="mt-4 p-1"><a href="/registeradmin">Restoran açmak için <span className="underline">tıklayın</span></a></div>
-
             </div>
         </AuthContainer>
     )

@@ -1,19 +1,16 @@
-import useCart from '@/hooks/useCart'
-import React from 'react'
+import useCart from '@/hooks/useCart';
 
 const WhatsAppLink = ({ phoneNumber }: any) => {
-  const { cartProducts } = useCart()
+  const { cartProducts } = useCart();
 
 
-  const message: any = cartProducts
-    ?.map(item => `${item.name} - Adet: ${item.quantity}`)
-    .join('\n');
+  const message: any = `Merhaba,\n\n${cartProducts?.map(item => `${item.name} - Adet: ${item.quantity}`).join('\n')}\n\n sipariş vermek istiyorum.`;
 
-  // Mesajı encode et
   const encodedMessage = encodeURIComponent(message);
   const formattedPhone = phoneNumber?.replace(/\D/g, '');
-  // WhatsApp URL'sini oluştur
+
   const url = `https://wa.me/${formattedPhone}?text=${encodedMessage}`;
+
   return (
     <a
       style={{ backgroundColor: 'ghostwhite' }}

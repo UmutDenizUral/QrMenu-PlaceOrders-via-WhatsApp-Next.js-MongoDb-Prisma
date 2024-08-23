@@ -6,26 +6,21 @@ import WhatsAppLink from "../general/WhatsAppLink"
 import Counter from "../general/Counter"
 import Heading from "../general/Heading"
 import { useCallback, useEffect, useState } from "react"
-import { getRestPhone } from "@/app/actions/getRestPhone"
 import axios from "axios"
 import toast from "react-hot-toast"
-// local storage de ürünlerin rest idsine bakıcak eğer farkı restrandan ürünler varsa uyarı vericek 
 
-
-
-
+//Sepet işlemleri 
 const CartClient = () => {
     const { cartProducts, removeFromCart, removeCart, addToBasketIncrease, addToBasketDecrease } = useCart()
     const [restPhone, setRestPhone] = useState()
     const [wpOrder, setWpOrder] = useState(true)
-    const [activeRest, setActiveRest] = useState()
     const url = localStorage.getItem('restId')
 
     const getRestaurantPhone = useCallback(async (id: any) => {
         const phone = await fetchRestaurantPhone(id)
         setRestPhone(phone)
     }, [])
-    console.log('Restaurant phone verisi:', restPhone)
+
     const fetchRestaurantPhone = async (id: any) => {
         try {
             const response = await axios.get(`/api/restaurantPhone/${id}`)
@@ -35,7 +30,7 @@ const CartClient = () => {
             console.error("Telefon numarası alınırken bir hata oluştu:", error);
             return null;
         }
-    };
+    }
 
     useEffect(() => {
         if (cartProducts && cartProducts.length > 0) {
@@ -47,16 +42,13 @@ const CartClient = () => {
         if (cartProducts && cartProducts.length > 0) {
             const restaurantIds = cartProducts.map(product => product.restaurantId);
             const uniqueRestaurantIds = [...new Set(restaurantIds)];
-
             if (uniqueRestaurantIds.length > 1) {
                 setWpOrder(false)
                 toast.error("Sepetinizde farklı restoranlardan ürünler var. Lütfen tek bir restorandan ürün ekleyin.");
             } else if (uniqueRestaurantIds.length == 1) {
                 setWpOrder(true)
             }
-
         }
-
     }, [cartProducts, getRestaurantPhone]);
 
     if (!cartProducts || cartProducts.length == 0) {
@@ -75,7 +67,7 @@ const CartClient = () => {
             <PageContainer>
                 <div className="flex text-center items-center gap-3 border-b py-3">
                     <div className=" w-1/6">Restoran</div>
-                    <div className=" w-1/6">Ürün resmi</div>
+                    <div className=" w-1/6">Ürün Resmi</div>
                     <div className=" w-1/6">Ürün Adı</div>
                     <div className=" w-1/6">Ürün Miktarı</div>
                     <div className=" w-1/6">Ürün Fiyatı</div>
@@ -100,13 +92,11 @@ const CartClient = () => {
                     )))}
                 </div>
                 <div className="flex items-center justify-between my-5 py-5 border-t">
-                    <button onClick={() => removeCart()} className=" w-1/6 underline text-sm">Sepet Sİl</button>
+                    <button onClick={() => removeCart()} className=" w-1/6 underline text-sm">Sepet Sil</button>
                     <div className="flex justify-between gap-2">
                         <div className="flex justify-center items-center text-lg md:text-2xl text-orange-600 font-bold px-2">{cartProductsTotal}TL</div>
                         {wpOrder ? <WhatsAppLink phoneNumber={restPhone} /> : <div className="flex items-center justify-center border-2 p-2 border-red-600">WhatsApp ile sipariş verebilmek için tek bir restoran seçiniz </div>}
-
                     </div>
-
                 </div>
             </PageContainer>
         </div>

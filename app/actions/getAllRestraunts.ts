@@ -22,4 +22,3 @@ export async function getAllRestaurants() {
         return null;
     }
 }
-//ana page de görüntülenecek

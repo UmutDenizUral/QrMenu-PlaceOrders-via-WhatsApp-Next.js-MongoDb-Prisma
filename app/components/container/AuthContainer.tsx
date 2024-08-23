@@ -1,4 +1,3 @@
-import React from 'react'
 
 const AuthContainer = ({children}: {children: React.ReactNode}) => {
   return (

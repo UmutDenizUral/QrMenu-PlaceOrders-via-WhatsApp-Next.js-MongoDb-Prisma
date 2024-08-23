@@ -5,8 +5,6 @@ import ManageClient from '@/app/components/admin/ManageClient'
 import WarningText from '@/app/components/WarningText'
 import React from 'react'
 
-
-// bu sayfa düzeltilecek
 const Manage = async () => {
   const currentUser = await getCurrentUser();
   const products = await getProducts()
@@ -14,7 +12,6 @@ const Manage = async () => {
   if (!currentUser || currentUser.role !== 'ADMIN') {
     return <WarningText text="Buraya Giremezsin" />;
   }
-
   if (!restaurantData) {
     return <WarningText text="Restoran verisi alınamadı." />;
   }

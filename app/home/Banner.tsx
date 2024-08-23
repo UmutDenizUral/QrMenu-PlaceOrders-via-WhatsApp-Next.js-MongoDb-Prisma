@@ -1,10 +1,9 @@
 'use client'
-import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css/bundle'
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import 'swiper/css/autoplay'; 
+import 'swiper/css/autoplay';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import Image from 'next/image';
 import BannerSideContent from './BannerSideContent';
@@ -19,13 +18,13 @@ const Banner = () => {
           loop={true}
           autoplay={{
             delay: 3000,
-            disableOnInteraction: false, 
+            disableOnInteraction: false,
           }}
           pagination={{
             clickable: true,
           }}
           navigation={false}
-          modules={[Pagination, Navigation,Autoplay]}
+          modules={[Pagination, Navigation, Autoplay]}
           className="mySwiper"
         >
           <SwiperSlide>
@@ -55,16 +54,12 @@ const Banner = () => {
                 fill />
             </div>
           </SwiperSlide>
-
-
         </Swiper>
       </div>
       <div className='md:2/5  w-full'>
         <BannerSideContent />
       </div>
     </div>
-
-
   )
 }
 

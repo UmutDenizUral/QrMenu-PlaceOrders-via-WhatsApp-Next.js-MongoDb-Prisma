@@ -1,5 +1,5 @@
 "use client"
-import { User } from "@prisma/client"
+import type  { User } from "@prisma/client"
 import { useState, useEffect, useRef } from "react"
 import { AiOutlineUser } from 'react-icons/ai'
 import { signOut } from "next-auth/react"

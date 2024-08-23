@@ -39,19 +39,21 @@ export const CartContextProvider: React.FC<{ children: ReactNode }> = ({ childre
     const [cartProducts, setCartProducts] = useState<CardProductsProps[] | null>(null);
 
     useEffect(() => {
-        let getItem: any = localStorage.getItem('cart')
-        let getItemParse: CardProductsProps[] | null = JSON.parse(getItem)
-        setCartProducts(getItemParse)
+        if (typeof window !== 'undefined') {
+            let getItem: any = localStorage.getItem('cart');
+            let getItemParse: CardProductsProps[] | null = JSON.parse(getItem);
+            setCartProducts(getItemParse);
     
-        if (cartProducts && cartProducts.length > 0) {
-            const restaurantIds = cartProducts.map(product => product.restaurantId);
-            const uniqueRestaurantIds = restaurantIds.filter((id, index, self) => self.indexOf(id) === index);
+            if (cartProducts && cartProducts.length > 0) {
+                const restaurantIds = cartProducts.map(product => product.restaurantId);
+                const uniqueRestaurantIds = restaurantIds.filter((id, index, self) => self.indexOf(id) === index);
     
-            if (uniqueRestaurantIds.length > 1) {
-                toast.error("Sepetinizde farklı restoranlardan ürünler var. Lütfen tek bir restorandan ürün ekleyin.");
+                if (uniqueRestaurantIds.length > 1) {
+                    toast.error("Sepetinizde farklı restoranlardan ürünler var. Lütfen tek bir restorandan ürün ekleyin.");
+                }
             }
         }
-    }, [])
+    }, []);
     
 
     const addToBasket = useCallback((product: CardProductsProps) => {

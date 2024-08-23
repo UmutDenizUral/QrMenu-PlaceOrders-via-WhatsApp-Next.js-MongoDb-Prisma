@@ -2,7 +2,7 @@ import RestrauntCard from './RestrauntCard'
 
 const AllRestraunts = (data: any) => {
     
-    if (!data) {
+    if (!data.data) {
         return <div>Bir hata durumu mevcut lütfen bekleyiniz</div>
     }
 

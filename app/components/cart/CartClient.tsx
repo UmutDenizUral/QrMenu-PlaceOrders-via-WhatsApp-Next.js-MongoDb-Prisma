@@ -37,18 +37,21 @@ const CartClient = () => {
             if (restaurantId) {
                 getRestaurantPhone(restaurantId);
             }
-        }
-        if (cartProducts && cartProducts.length > 0) {
+    
             const restaurantIds = cartProducts.map(product => product.restaurantId);
-            const uniqueRestaurantIds = [...new Set(restaurantIds)];
+            
+            // Benzersiz restoran kimliklerini almak için dizi filtreleme kullanıyoruz
+            const uniqueRestaurantIds = restaurantIds.filter((id, index, self) => self.indexOf(id) === index);
+    
             if (uniqueRestaurantIds.length > 1) {
-                setWpOrder(false)
+                setWpOrder(false);
                 toast.error("Sepetinizde farklı restoranlardan ürünler var. Lütfen tek bir restorandan ürün ekleyin.");
             } else if (uniqueRestaurantIds.length === 1) {
-                setWpOrder(true)
+                setWpOrder(true);
             }
         }
     }, [cartProducts, getRestaurantPhone]);
+    
 
     if (!cartProducts || cartProducts.length === 0) {
         return (

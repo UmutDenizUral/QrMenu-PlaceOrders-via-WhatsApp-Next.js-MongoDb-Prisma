@@ -25,7 +25,8 @@ const AboutPage = () => {
             <div className="w-full md:w-1/2 md:pl-8 mt-6 md:mt-0">
               <h2 className="text-2xl font-semibold mb-4">Biz Kimiz?</h2>
               <p className="text-gray-700">
-                Restoran hesabı açarak kendi menünüzü kolaylıkla oluşturabilirsiniz. Müşteriler QR kodunuzu okutarak doğrudan restoranınızın menüsüne ulaşabilir. Sepete eklenen ürünler sipariş tamamlandığında restoran sahibinin WhatsApp'ına mesaj olarak iletilir.
+                Restoran hesabı açarak kendi menünüzü kolaylıkla oluşturabilirsiniz. Müşteriler QR kodunuzu okutarak doğrudan restoranınızın menüsüne ulaşabilir. Sepete eklenen ürünler sipariş tamamlandığında Restoran sahibinin WhatsApp&apos;a mesaj olarak iletilir.
+
               </p>
             </div>
           </div>

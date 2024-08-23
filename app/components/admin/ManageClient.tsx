@@ -29,7 +29,7 @@ type UniqueCategoriesProps = {
 }
 
 //admin panel ürün yönetme 
-export default function ManageClient({ products, restaurantData }: {products: any,restaurantData : any}) {
+export default function ManageClient({ products, restaurantData }: { products: any, restaurantData: any }) {
     const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({})
     const [rows, setRows] = useState<any>()
     const [submenuOption, setSubmenuOption] = useState([])
@@ -84,7 +84,7 @@ export default function ManageClient({ products, restaurantData }: {products: an
             getCategory(restaurantData)
         }
 
-    }, [])
+    }, [products, restaurantData])
 
     const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
         if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -133,7 +133,7 @@ export default function ManageClient({ products, restaurantData }: {products: an
                     console.error('Silme işlemi sırasında bir hata oluştu:', error)
                 })
         }
-    }, [rows])
+    }, [rows, router, storage])
 
     const handleCancelClick = (id: GridRowId) => () => {
         setRowModesModel({
@@ -212,6 +212,7 @@ export default function ManageClient({ products, restaurantData }: {products: an
                 if (isInEditMode) {
                     return [
                         <GridActionsCellItem
+                            key={`save-${id}`}
                             icon={<SaveIcon />}
                             label="Save"
                             sx={{
@@ -220,6 +221,7 @@ export default function ManageClient({ products, restaurantData }: {products: an
                             onClick={handleSaveClick(id)}
                         />,
                         <GridActionsCellItem
+                            key={`cancel-${id}`}
                             icon={<CancelIcon />}
                             label="Cancel"
                             className="textPrimary"
@@ -230,6 +232,7 @@ export default function ManageClient({ products, restaurantData }: {products: an
                 }
                 return [
                     <GridActionsCellItem
+                        key={`edit-${id}`}
                         icon={<EditIcon />}
                         label="Edit"
                         className="textPrimary"
@@ -237,6 +240,7 @@ export default function ManageClient({ products, restaurantData }: {products: an
                         color="inherit"
                     />,
                     <GridActionsCellItem
+                        key={`delete-${id}`}
                         icon={<DeleteIcon />}
                         label="Delete"
                         onClick={() => handleDeleteClick(id)}

@@ -102,7 +102,7 @@ const AdminRegisterClient: React.FC<RegisterClientProps> = ({ currentUser }) => 
             router.push('/')
             router.refresh()
         }
-    }, [])
+    }, [currentUser,router])
     return (
         <AuthContainer>
             <div className="w-full md:w-[500px] p-3 shadow-lg rounded-md">

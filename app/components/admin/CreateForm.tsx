@@ -170,7 +170,7 @@ const CreateForm = ({ restaurant }: any) => {
       })
       setValue('submenuId', selectedSubmenuId)
 
-   }, [selectedSubmenuId])
+   }, [selectedSubmenuId,setValue])
    return (
       <div>
          <Heading text="ÜRÜN OLUSTUR" center />

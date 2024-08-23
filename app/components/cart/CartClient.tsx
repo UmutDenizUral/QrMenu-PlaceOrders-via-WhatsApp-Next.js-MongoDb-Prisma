@@ -9,10 +9,10 @@ import { useCallback, useEffect, useState } from "react"
 import axios from "axios"
 import toast from "react-hot-toast"
 
-//Sepet işlemleri 
+// Sepet işlemleri 
 const CartClient = () => {
     const { cartProducts, removeFromCart, removeCart, addToBasketIncrease, addToBasketDecrease } = useCart()
-    const [restPhone, setRestPhone] = useState()
+    const [restPhone, setRestPhone] = useState<string | undefined>()
     const [wpOrder, setWpOrder] = useState(true)
     const url = localStorage.getItem('restId')
 
@@ -24,7 +24,6 @@ const CartClient = () => {
     const fetchRestaurantPhone = async (id: any) => {
         try {
             const response = await axios.get(`/api/restaurantPhone/${id}`)
-            console.log('response:', response)
             return response.data.phone;
         } catch (error) {
             console.error("Telefon numarası alınırken bir hata oluştu:", error);
@@ -45,57 +44,69 @@ const CartClient = () => {
             if (uniqueRestaurantIds.length > 1) {
                 setWpOrder(false)
                 toast.error("Sepetinizde farklı restoranlardan ürünler var. Lütfen tek bir restorandan ürün ekleyin.");
-            } else if (uniqueRestaurantIds.length == 1) {
+            } else if (uniqueRestaurantIds.length === 1) {
                 setWpOrder(true)
             }
         }
     }, [cartProducts, getRestaurantPhone]);
 
-    if (!cartProducts || cartProducts.length == 0) {
-
-        return <PageContainer>
-            <Heading text="Sepet" />
-            <div >
-                <p className="my-2">Sepetinizde ürün bulunmamaktadır.</p>
-                <a className="text-sm underline hover:text-yellow-600" href={`/restaurant/${url}`}>Yemekleri keşfet --></a>
-            </div>
-        </PageContainer>
+    if (!cartProducts || cartProducts.length === 0) {
+        return (
+            <PageContainer>
+                <Heading text="Sepet" />
+                <div>
+                    <p className="my-2">Sepetinizde ürün bulunmamaktadır.</p>
+                    <a className="text-sm underline hover:text-yellow-600" href={`/restaurant/${url}`}>Yemekleri keşfet --{'>'}</a>
+                </div>
+            </PageContainer>
+        )
     }
-    let cartProductsTotal = cartProducts.reduce((acc: any, item: CardProductsProps) => acc + item.quantity * item.price, 0)
+
+    let cartProductsTotal = cartProducts.reduce((acc: number, item: CardProductsProps) => acc + item.quantity * item.price, 0)
     return (
         <div className="my-3 md:my-10">
             <PageContainer>
                 <div className="flex text-center items-center gap-3 border-b py-3">
-                    <div className=" w-1/6">Restoran</div>
-                    <div className=" w-1/6">Ürün Resmi</div>
-                    <div className=" w-1/6">Ürün Adı</div>
-                    <div className=" w-1/6">Ürün Miktarı</div>
-                    <div className=" w-1/6">Ürün Fiyatı</div>
-                    <div className=" w-1/6"></div>
+                    <div className="w-1/6">Restoran</div>
+                    <div className="w-1/6">Ürün Resmi</div>
+                    <div className="w-1/6">Ürün Adı</div>
+                    <div className="w-1/6">Ürün Miktarı</div>
+                    <div className="w-1/6">Ürün Fiyatı</div>
+                    <div className="w-1/6"></div>
                 </div>
                 <div>
-                    {cartProducts.map(((product, i) => (
+                    {cartProducts.map((product, i) => (
                         <div key={i} className="flex text-center items-center gap-3 border-b py-2">
-                            <div className=" w-1/6">{product.restaurant}</div>
-                            <div className=" w-1/6 flex items-center justify-center">
+                            <div className="w-1/6">{product.restaurant}</div>
+                            <div className="w-1/6 flex items-center justify-center">
                                 <Image
                                     src={product.image}
                                     width={40}
                                     height={40}
-                                    alt="yok" />
+                                    alt="Ürün Resmi" />
                             </div>
-                            <div className=" w-1/6">{product.name}</div>
-                            <div className=" w-1/6">{product.quantity}</div>
-                            <div className=" w-1/6"> {product.price}</div>
-                            <Counter increaseFunc={() => addToBasketIncrease(product)} decreaseFunc={() => addToBasketDecrease(product)} cardProduct={product} />
+                            <div className="w-1/6">{product.name}</div>
+                            <div className="w-1/6">{product.quantity}</div>
+                            <div className="w-1/6">{product.price} TL</div>
+                            <Counter 
+                                increaseFunc={() => addToBasketIncrease(product)} 
+                                decreaseFunc={() => addToBasketDecrease(product)} 
+                                cardProduct={product} 
+                            />
                         </div>
-                    )))}
+                    ))}
                 </div>
                 <div className="flex items-center justify-between my-5 py-5 border-t">
-                    <button onClick={() => removeCart()} className=" w-1/6 underline text-sm">Sepet Sil</button>
+                    <button onClick={() => removeCart()} className="w-1/6 underline text-sm">Sepet Sil</button>
                     <div className="flex justify-between gap-2">
-                        <div className="flex justify-center items-center text-lg md:text-2xl text-orange-600 font-bold px-2">{cartProductsTotal}TL</div>
-                        {wpOrder ? <WhatsAppLink phoneNumber={restPhone} /> : <div className="flex items-center justify-center border-2 p-2 border-red-600">WhatsApp ile sipariş verebilmek için tek bir restoran seçiniz </div>}
+                        <div className="flex justify-center items-center text-lg md:text-2xl text-orange-600 font-bold px-2">
+                            {cartProductsTotal} TL
+                        </div>
+                        {wpOrder ? 
+                            <WhatsAppLink phoneNumber={restPhone} /> 
+                            : <div className="flex items-center justify-center border-2 p-2 border-red-600">
+                                WhatsApp ile sipariş verebilmek için tek bir restoran seçiniz 
+                            </div>}
                     </div>
                 </div>
             </PageContainer>

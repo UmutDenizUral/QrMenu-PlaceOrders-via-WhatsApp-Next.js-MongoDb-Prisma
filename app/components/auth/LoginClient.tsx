@@ -46,7 +46,7 @@ const LoginClient: React.FC<LoginClientProps> = ({ currentUser }) => {
             router.refresh()
         }
 
-    }, [])
+    }, [currentUser,router])
     return (
 
         <AuthContainer>

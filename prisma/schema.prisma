@@ -47,8 +47,8 @@ model Product {
   categoryId   String     @db.ObjectId
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId String     @db.ObjectId
-  submenu      Submenu    @relation(fields: [submenuId], references: [id])
-  submenuId    String     @db.ObjectId
+  submenu      Submenu?    @relation(fields: [submenuId], references: [id])
+  submenuId    String?     @db.ObjectId
   ingredients  String?
   reviews      Review[]
 }

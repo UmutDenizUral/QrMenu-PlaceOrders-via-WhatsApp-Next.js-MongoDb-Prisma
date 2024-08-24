@@ -37,7 +37,7 @@ export const CartContextProvider: React.FC<{ children: ReactNode }> = ({ childre
     useEffect(() => {
         // Tarayıcıda olup olmadığını kontrol et
         if (typeof window !== 'undefined') {
-            const getItem = localStorage.getItem('cart');
+            const getItem = window.localStorage.getItem('cart');
             const getItemParse: CardProductsProps[] | null = getItem ? JSON.parse(getItem) : null;
             setCartProducts(getItemParse);
 
@@ -62,7 +62,7 @@ export const CartContextProvider: React.FC<{ children: ReactNode }> = ({ childre
         setCartProducts(prev => {
             const updatedCart = prev ? [...prev, CardProductData] : [CardProductData];
             if (typeof window !== 'undefined') {
-                localStorage.setItem('cart', JSON.stringify(updatedCart));
+                window.localStorage.setItem('cart', JSON.stringify(updatedCart));
             }
             return updatedCart;
         });
@@ -82,7 +82,7 @@ export const CartContextProvider: React.FC<{ children: ReactNode }> = ({ childre
                     return item;
                 });
                 if (typeof window !== 'undefined') {
-                    localStorage.setItem('cart', JSON.stringify(updatedCart));
+                    window.localStorage.setItem('cart', JSON.stringify(updatedCart));
                 }
                 return updatedCart;
             }
@@ -104,7 +104,7 @@ export const CartContextProvider: React.FC<{ children: ReactNode }> = ({ childre
                     return item;
                 });
                 if (typeof window !== 'undefined') {
-                    localStorage.setItem('cart', JSON.stringify(updatedCart));
+                    window.localStorage.setItem('cart', JSON.stringify(updatedCart));
                 }
                 return updatedCart;
             }
@@ -116,7 +116,7 @@ export const CartContextProvider: React.FC<{ children: ReactNode }> = ({ childre
         setCartProducts(null);
         toast.success('Tüm ürünler sepetten çıkarıldı!');
         if (typeof window !== 'undefined') {
-            localStorage.removeItem('cart');
+            window.localStorage.removeItem('cart');
         }
     }, []);
 
@@ -125,7 +125,7 @@ export const CartContextProvider: React.FC<{ children: ReactNode }> = ({ childre
             if (prev) {
                 const filteredProducts = prev.filter(cart => cart.id !== product.id);
                 if (typeof window !== 'undefined') {
-                    localStorage.setItem('cart', JSON.stringify(filteredProducts));
+                    window.localStorage.setItem('cart', JSON.stringify(filteredProducts));
                 }
                 toast.success('Ürün sepetten silindi!');
                 return filteredProducts;

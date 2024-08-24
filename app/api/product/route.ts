@@ -21,12 +21,13 @@ export async function POST(request: Request) {
             name: capitalizeFirstLetter(name),
             description: capitalizeFirstLetter(description),
             restaurantId: restaurantId,
-            submenuId: submenuId,
+            submenuId: submenuId || undefined,  
             categoryId: categoryId,
             price: parseFloat(price),
             ingredients: capitalizeFirstLetter(ingredients),
-            image:image
+            image: image
         }
     });
+    
     return NextResponse.json(product)
 }

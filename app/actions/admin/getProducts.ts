@@ -7,7 +7,8 @@ export async function getProducts() {
     try {
         const products = await prisma.product.findMany({
             where: {
-                restaurantId: restaurantId
+                restaurantId: restaurantId,
+                submenuId: { not: null } // submenuId'si null olmayan ürünleri seç
             },
             select: {
                 id: true,
@@ -20,6 +21,7 @@ export async function getProducts() {
                 category: true,
             }
         });
+         
         return products;
     } catch (error) {
         console.error("Failed to fetch products", error);

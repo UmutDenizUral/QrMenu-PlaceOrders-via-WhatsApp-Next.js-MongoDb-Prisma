@@ -14,7 +14,15 @@ const CartClient = () => {
     const { cartProducts, removeFromCart, removeCart, addToBasketIncrease, addToBasketDecrease } = useCart()
     const [restPhone, setRestPhone] = useState<string | undefined>()
     const [wpOrder, setWpOrder] = useState(true)
-    const url = localStorage.getItem('restId')
+    const [url,setUrl] =useState(null)
+
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            let tempurl :any = window.localStorage.getItem('restId')
+          setUrl(tempurl)
+        }
+    }, [])
 
     const getRestaurantPhone = useCallback(async (id: any) => {
         const phone = await fetchRestaurantPhone(id)
@@ -37,12 +45,12 @@ const CartClient = () => {
             if (restaurantId) {
                 getRestaurantPhone(restaurantId);
             }
-    
+
             const restaurantIds = cartProducts.map(product => product.restaurantId);
-            
+
             // Benzersiz restoran kimliklerini almak için dizi filtreleme kullanıyoruz
             const uniqueRestaurantIds = restaurantIds.filter((id, index, self) => self.indexOf(id) === index);
-    
+
             if (uniqueRestaurantIds.length > 1) {
                 setWpOrder(false);
                 toast.error("Sepetinizde farklı restoranlardan ürünler var. Lütfen tek bir restorandan ürün ekleyin.");
@@ -51,7 +59,7 @@ const CartClient = () => {
             }
         }
     }, [cartProducts, getRestaurantPhone]);
-    
+
 
     if (!cartProducts || cartProducts.length === 0) {
         return (
@@ -91,10 +99,10 @@ const CartClient = () => {
                             <div className="w-1/6">{product.name}</div>
                             <div className="w-1/6">{product.quantity}</div>
                             <div className="w-1/6">{product.price} TL</div>
-                            <Counter 
-                                increaseFunc={() => addToBasketIncrease(product)} 
-                                decreaseFunc={() => addToBasketDecrease(product)} 
-                                cardProduct={product} 
+                            <Counter
+                                increaseFunc={() => addToBasketIncrease(product)}
+                                decreaseFunc={() => addToBasketDecrease(product)}
+                                cardProduct={product}
                             />
                         </div>
                     ))}
@@ -105,10 +113,10 @@ const CartClient = () => {
                         <div className="flex justify-center items-center text-lg md:text-2xl text-orange-600 font-bold px-2">
                             {cartProductsTotal} TL
                         </div>
-                        {wpOrder ? 
-                            <WhatsAppLink phoneNumber={restPhone} /> 
+                        {wpOrder ?
+                            <WhatsAppLink phoneNumber={restPhone} />
                             : <div className="flex items-center justify-center border-2 p-2 border-red-600">
-                                WhatsApp ile sipariş verebilmek için tek bir restoran seçiniz 
+                                WhatsApp ile sipariş verebilmek için tek bir restoran seçiniz
                             </div>}
                     </div>
                 </div>

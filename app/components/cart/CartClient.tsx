@@ -88,7 +88,7 @@ const CartClient = () => {
                 <div>
                     {cartProducts.map((product, i) => (
                         <div key={i} className="flex text-center items-center gap-3 border-b py-2">
-                            <div className="w-1/6">{product.restaurant}</div>
+                            <div className="w-1/6">{product.restaurantName}</div>
                             <div className="w-1/6 flex items-center justify-center">
                                 <Image
                                     src={product.image}

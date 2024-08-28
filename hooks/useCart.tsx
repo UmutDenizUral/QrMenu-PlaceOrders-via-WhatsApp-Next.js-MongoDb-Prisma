@@ -66,13 +66,14 @@ export const CartContextProvider: React.FC<{ children: ReactNode }> = ({ childre
             }
             return updatedCart;
         });
+        toast.success('Ürün sepete eklendi')
     }, []);
 
     const addToBasketIncrease = useCallback((product: CardProductsProps) => {
         if (product.quantity === 10) {
             return toast.error('Daha fazla eklenemez');
         }
-        
+
         setCartProducts(prev => {
             if (prev) {
                 const updatedCart = prev.map(item => {

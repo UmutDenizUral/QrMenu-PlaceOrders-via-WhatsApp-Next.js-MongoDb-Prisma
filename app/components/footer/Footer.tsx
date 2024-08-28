@@ -36,7 +36,7 @@ const Footer = () => {
                         <div className="flex space-x-3">
                             <a href="#" className="text-gray-100 hover:text-gray-300 text-sm">Twitter</a>
                             <a href="#" className="text-gray-100 hover:text-gray-300 text-sm">Instagram</a>
-                            <a href="#" className="text-gray-100 hover:text-gray-300 text-sm">LinkedIn</a>
+                            <a href="https://www.linkedin.com/in/umut-deniz-ural-99a12a207/" className="text-gray-100 hover:text-gray-300 text-sm">LinkedIn</a>
                         </div>
                         <a href="/aboutUs" className="text-center text-gray-100 hover:text-gray-300">Hakkımızda</a>
                     </div>

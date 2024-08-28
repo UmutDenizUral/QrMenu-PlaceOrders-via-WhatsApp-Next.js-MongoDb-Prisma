@@ -150,20 +150,25 @@ export default function ManageClient({ products, restaurantData }: { products: a
     //Dataya güncelleyen func
     const processRowUpdate = async (newRow: GridRowModel) => {
         const updatedRow = { ...newRow };
-
+    
         if (newRow.category == 'Bu alt menüye ait kategori seçemezsiniz') {
-            toast.error('Kategori seçimi yanlış')
-            return
+            toast.error('Kategori seçimi yanlış');
+            return;
         }
-        // Eğer submenuId seçildi ise submenu alanını güncelleyen func
+    
         const selectedSubmenu: any = submenuOption.find((option: any) => option.name === newRow.submenu);
         if (selectedSubmenu) {
             updatedRow.submenuId = selectedSubmenu.id;
             updatedRow.submenu = selectedSubmenu.name;
         }
-
+    
+        const selectedCategory = categoryOption.find((category: any) => category.name === newRow.category);
+        if (selectedCategory) {
+            updatedRow.categoryId = selectedCategory.id;
+        }
+    
         setRows(rows.map((row: any) => (row.id === newRow.id ? updatedRow : row)));
-
+    
         try {
             await axios.put(`/api/product/update/${updatedRow.id}`, updatedRow);
             toast.success('Güncelleme başarılı!');
@@ -171,9 +176,10 @@ export default function ManageClient({ products, restaurantData }: { products: a
             console.error('Güncelleme sırasında bir hata oluştu:', error);
             toast.error('Güncelleme başarısız oldu!');
         }
-
+    
         return updatedRow;
     };
+    
 
     const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
         setRowModesModel(newRowModesModel)

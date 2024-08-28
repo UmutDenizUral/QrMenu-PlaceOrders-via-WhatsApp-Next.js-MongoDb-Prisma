@@ -14,13 +14,13 @@ const CartClient = () => {
     const { cartProducts, removeFromCart, removeCart, addToBasketIncrease, addToBasketDecrease } = useCart()
     const [restPhone, setRestPhone] = useState<string | undefined>()
     const [wpOrder, setWpOrder] = useState(true)
-    const [url,setUrl] =useState(null)
+    const [url, setUrl] = useState(null)
 
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            let tempurl :any = window.localStorage.getItem('restId')
-          setUrl(tempurl)
+            let tempurl: any = window.localStorage.getItem('restId')
+            setUrl(tempurl)
         }
     }, [])
 
@@ -78,27 +78,27 @@ const CartClient = () => {
         <div className="my-3 md:my-10">
             <PageContainer>
                 <div className="flex text-center items-center gap-3 border-b py-3">
-                    <div className="w-1/6">Restoran</div>
-                    <div className="w-1/6">Ürün Resmi</div>
-                    <div className="w-1/6">Ürün Adı</div>
-                    <div className="w-1/6">Ürün Miktarı</div>
-                    <div className="w-1/6">Ürün Fiyatı</div>
-                    <div className="w-1/6"></div>
+         
+                    <div className="w-1/5">Ürün Resmi</div>
+                    <div className="w-1/5">Ürün Adı</div>
+                    <div className="w-1/5">Ürün Miktarı</div>
+                    <div className="w-1/5">Ürün Fiyatı</div>
+                    <div className="w-1/5"></div>
                 </div>
                 <div>
                     {cartProducts.map((product, i) => (
                         <div key={i} className="flex text-center items-center gap-3 border-b py-2">
-                            <div className="w-1/6">{product.restaurantName}</div>
-                            <div className="w-1/6 flex items-center justify-center">
+                       
+                            <div className="w-1/5 flex items-center justify-center">
                                 <Image
                                     src={product.image}
                                     width={40}
                                     height={40}
                                     alt="Ürün Resmi" />
                             </div>
-                            <div className="w-1/6">{product.name}</div>
-                            <div className="w-1/6">{product.quantity}</div>
-                            <div className="w-1/6">{product.price} TL</div>
+                            <div className="w-1/5">{product.name}</div>
+                            <div className="w-1/5">{product.quantity}</div>
+                            <div className="w-1/5">{product.price} TL</div>
                             <Counter
                                 increaseFunc={() => addToBasketIncrease(product)}
                                 decreaseFunc={() => addToBasketDecrease(product)}
@@ -108,7 +108,7 @@ const CartClient = () => {
                     ))}
                 </div>
                 <div className="flex items-center justify-between my-5 py-5 border-t">
-                    <button onClick={() => removeCart()} className="w-1/6 underline text-sm">Sepet Sil</button>
+                    <button onClick={() => removeCart()} className="w-1/5 underline text-sm">Sepet Sil</button>
                     <div className="flex justify-between gap-2">
                         <div className="flex justify-center items-center text-lg md:text-2xl text-orange-600 font-bold px-2">
                             {cartProductsTotal} TL

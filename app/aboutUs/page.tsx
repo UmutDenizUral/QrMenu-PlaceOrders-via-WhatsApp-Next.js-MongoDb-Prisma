@@ -15,7 +15,7 @@ const AboutPage = () => {
           <div className="flex flex-col md:flex-row items-center">
             <div className="w-full md:w-1/2">
               <Image
-                src="/out-1.png" // Resim dosyanızın yolunu buraya koyun
+                src="/out-1.png" 
                 alt="Şirketimiz"
                 width={600}
                 height={400}
@@ -53,7 +53,7 @@ const AboutPage = () => {
         {/* İletişim Bilgileri */}
         <div className="bg-white p-8 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold mb-4">İletişim Bilgileri</h2>
-          <p className="text-gray-700 mb-2">E-posta: uduve08@gmail.com</p>
+          <p className="text-gray-700 mb-2">E-posta: umutdenizural@gmail.com</p>
           <p className="text-gray-700 mb-2">Telefon: +90 535 647 7909</p>
           <p className="text-gray-700">Adres: İstanbul/Üsküdar, Türkiye</p>
         </div>

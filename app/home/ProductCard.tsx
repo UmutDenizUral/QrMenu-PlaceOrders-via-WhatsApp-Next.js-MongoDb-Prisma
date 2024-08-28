@@ -6,7 +6,7 @@ import useCart from '@/hooks/useCart';
 import Button from '../components/general/Button';
 
 const ProductCard = ({ product, restName }: { product: any, restName: any }) => {
-  const { addToBasket } = useCart();
+  const { addToBasket, cartProducts } = useCart();
   product = { ...product, restaurantName: restName };
   const { id, name, description, price, ingredients, image, category, restaurantName } = product;
   const capitalizeFirstLetter = (str: string) => (str.charAt(0).toUpperCase() + str.slice(1));
@@ -28,8 +28,14 @@ const ProductCard = ({ product, restName }: { product: any, restName: any }) => 
               <div className='flex-grow font-medium'>
                 {price} <span className='font-semibold'>₺</span>
               </div>
-              <div className="" onClick={(e) => e.stopPropagation()}>
-                <Button text='Sepete Ekle' onClick={() => addToBasket(product)} />
+              <div className="" onClick={(e) => e.preventDefault()}>
+
+                {
+                  (cartProducts?.some(item => item.id === id))
+                    ? <Button text="Ürün Sepette" disabled outline onClick={() => addToBasket(product)} />
+                    : <Button text='Sepete Ekle' onClick={() => addToBasket(product)} />
+                }
+
               </div>
             </div>
             <div className='px-3 my-1'>{capitalizeFirstLetter(description)}</div>
